@@ -29,13 +29,21 @@ Current repo: `README.md`, `GroomingHer - Qubators.md/.docx` (brief), `PRD.md` (
 - Exit: clickable prototype tested with 3 teens
 
 ## Phase 3 — Architecture Decisions
-**Recommendation (default unless you override): responsive Web App PWA first.**
-Why: shared Android phones, low storage, no install friction, fast iteration, works on school/library devices. Native later if retention warrants.
+**Default: responsive Web App PWA first.** Shared Android phones, low storage, no install friction, fast iteration. Native later if retention warrants.
 
-- Frontend: Next.js (React) + TypeScript + Tailwind, PWA installable, offline cache for Learn + logs
-- Backend: Supabase (Postgres + Auth + RLS) — or Firebase alternative. RLS enforces: girl sees only her data; parent sees only explicitly shared summaries
-- AI: provider-agnostic service layer (`/lib/ai.ts`) calling LLM with strict system prompt + triage rules engine first, LLM second for explanation tone. All outputs include disclaimer + escalation check
-- Hosting: Vercel (frontend) + Supabase (backend); CDN images, <200KB initial JS target
+| Concern | Recommendation | Reason |
+|---|---|---|
+| Web | Next.js (React) + TypeScript + Tailwind, PWA installable, offline cache for Learn + logs | One codebase for all phones, fast on low-end Android, <200KB initial JS target, easy PWA install without Play Store |
+| DB | Supabase Postgres with Row Level Security (RLS) | Postgres reliability + RLS enforces privacy: girl sees only her data, parent sees only explicitly shared summaries; Firebase as fallback only |
+| Auth | Supabase Auth (phone/email + PIN app-lock + session timeout) | Handles minors/shared phones safely; PIN app-lock + short sessions prevent sibling/parent snooping; no custom auth to maintain |
+| Files | Supabase Storage + CDN, compressed images (<100KB), no video in MVP | Low-data Nigeria context; Learn illustrations only, cached offline; keeps hosting simple in one vendor |
+| Payments | None in MVP; later Paystack (Nigeria-first), Flutterwave fallback | MVP is free/educational; Paystack fits Naira, bank transfer, USSD when monetization needed |
+| Email | Supabase built-in auth emails for MVP; Resend if custom templates needed | Zero extra vendor for MVP; Resend adds simple templating for parent invites/reports later |
+| SMS/WhatsApp | MVP: in-app + push reminders only; later Termii (SMS/WhatsApp Nigeria) | Termii has Nigerian routes/pricing; SMS only if reminders prove valuable — avoids cost/complexity now |
+| Hosting | Vercel (frontend) + Supabase (EU/US + CDN) | Free-tier start, fast deploys, global CDN for low bandwidth; keeps frontend/backend decoupled |
+| AI | Rules engine first (`/lib/triage.ts` versioned) + provider-agnostic LLM layer (`/lib/ai.ts`) for tone/explanation, strict system prompt, disclaimer + escalation check on every output | Safety: deterministic red-flag outcomes (heavy flow, severe pain, fever+discharge, <21d/>45d recurring) can't drift; LLM only rephrases age-appropriately; easy to swap OpenAI/Groq/OpenRouter |
+| CI/CD | GitHub Actions: lint + typecheck + tests + RLS policy tests → preview deploy → main deploy | Free, tied to repo, blocks broken/unsafe triage changes from shipping |
+
 - Data model v1:
   - `profiles(id, age_band, menarche_status, language, pin_hash)`
   - `cycles(id, profile_id, start_date, end_date, flow)`
