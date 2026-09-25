@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+:root {
+  --plum: #7c2d52; --plum-dark: #5b1f3c; --rose: #e85d8a; --rose-light: #fbdce6;
+  --bg: #fff7f9; --surface: #ffffff; --text: #3f2a33; --muted: #8a6b76; --border: #f1d9e0;
+  --teal: #0d9488; --amber: #f59e0b; --danger: #dc2626; --ok: #15803d;
+}
+body { background: var(--bg); color: var(--text); font-size: 16px; }

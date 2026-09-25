@@ -30,7 +30,7 @@ They may rely on friends, social media, or unreliable online sources, leaving th
 
 ## Project Status
 
-Initial version (v0.1): product brief + repository setup. No app code yet.
+Phase 3: app scaffold live in `app/` (Next.js PWA + local Postgres + Better Auth + triage rules). Feature routes land per slice in Phase 4.
 
 ## Repo Contents
 
@@ -45,6 +45,14 @@ Clone the repo and read the product brief:
 ```bash
 git clone https://github.com/IretiAkin5/GroomingHer-Qubators.git
 cd GroomingHer-Qubators
+```
+
+## Run the app (needs Node 20 + Docker)
+
+```bash
+cp app/.env.example app/.env.local
+docker compose up --build
+# open http://localhost:3000, health at /api/health
 ```
 
 ## Roadmap
