@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GroomingHer — Design System Preview</title>
+<style>
+:root{--plum:#7C2D52;--plum-d:#5B1F3C;--rose:#E85D8A;--rose-l:#FBDCE6;--bg:#FFF7F9;--surface:#fff;--text:#3F2A33;--muted:#8A6B76;--border:#F1D9E0;--teal:#0D9488;--amber:#F59E0B;--danger:#DC2626;--ok:#15803D;--r-s:10px;--r-m:14px;--r-l:20px}
+*{box-sizing:border-box}body{margin:0;font-family:Nunito,system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6}
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 80px}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:8px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--plum),var(--rose));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px}
+h1{font-size:28px;margin:0}h2{font-size:22px;margin:36px 0 12px;padding-top:20px;border-top:2px solid var(--border)}.sub{color:var(--muted);margin:4px 0 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-l);padding:20px;margin:12px 0}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.sw{border-radius:var(--r-m);overflow:hidden;border:1px solid var(--border)}.sw div:first-child{height:64px}.sw div:last-child{padding:8px 10px;font-size:13px;background:#fff}
+.btn{display:inline-block;border:none;cursor:pointer;font-weight:700;font-size:16px;padding:12px 20px;border-radius:var(--r-m);min-height:48px;margin:4px}.btn-p{background:var(--plum);color:#fff}.btn-r{background:var(--rose);color:#fff}.btn-o{background:#fff;color:var(--plum);border:2px solid var(--plum)}.btn-g{background:#fff;color:var(--muted);border:2px solid var(--border)}
+.chip{display:inline-block;padding:10px 16px;border-radius:999px;border:2px solid var(--border);background:#fff;margin:4px;font-size:14px;min-height:44px}.chip.on{background:var(--rose-l);border-color:var(--rose);font-weight:700}
+.inp{width:100%;padding:12px 14px;font-size:16px;border-radius:var(--r-m);border:2px solid var(--border);min-height:48px;margin:6px 0}
+.pin{display:flex;gap:8px}.pin div{width:52px;height:60px;border-radius:var(--r-m);border:2px solid var(--plum);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;background:#fff}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.cal div{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#fff;border:1px solid var(--border)}.cal .p{background:var(--rose);color:#fff;font-weight:800}.cal .pred{background:var(--rose-l);font-weight:700}.cal .today{outline:3px solid var(--plum)}
+.banner{border-radius:var(--r-m);padding:14px 16px;margin:8px 0;font-size:14px}.b-info{background:#E6F7F4;border:1px solid var(--teal)}.b-warn{background:#FEF3C7;border:1px solid var(--amber)}.b-danger{background:#FEE2E2;border:1px solid var(--danger)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0}.nav div{text-align:center;font-size:12px;color:var(--muted)}.nav .a{color:var(--plum);font-weight:800}
+.skel{background:linear-gradient(90deg,#f3e2e8,#fbeef3,#f3e2e8);border-radius:10px;height:18px;margin:8px 0;animation:s 1.4s infinite}@keyframes s{50%{opacity:.5}}
+.mode{margin:12px 0;padding:12px;border-radius:var(--r-m);border:2px dashed var(--plum)}.toggle{cursor:pointer;background:var(--plum);color:#fff;border:none;border-radius:999px;padding:10px 18px;font-weight:700;min-height:44px}
+body.discreet{--bg:#F8FAFC;--surface:#fff;--text:#334155;--border:#E2E8F0;--rose:#64748B;--rose-l:#E2E8F0;--plum:#334155}
+.type div{border-bottom:1px solid var(--border);padding:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div class="logo">H</div><div><h1>GroomingHer Design System</h1><p class="sub">v0.1 preview — calm, private, age-12 readable, low-data. Tokens in <code>design/tokens.json</code>.</p></div></div>
+<div class="mode"><b>Discreet mode demo:</b> renames app to “GH Notes”, mutes colors for shared phones. <button class="toggle" onclick="document.body.classList.toggle('discreet')">Toggle discreet</button></div>
+
+<h2>1. Colors</h2>
+<div class="card"><div class="swatches">
+<div class="sw"><div style="background:#7C2D52"></div><div><b>Plum</b><br>#7C2D52 primary</div></div>
+<div class="sw"><div style="background:#E85D8A"></div><div><b>Rose</b><br>#E85D8A accent</div></div>
+<div class="sw"><div style="background:#FBDCE6"></div><div><b>Rose light</b><br>#FBDCE6 selected</div></div>
+<div class="sw"><div style="background:#FFF7F9"></div><div><b>Bg</b><br>#FFF7F9 warm</div></div>
+<div class="sw"><div style="background:#0D9488"></div><div><b>Teal</b><br>#0D9488 info</div></div>
+<div class="sw"><div style="background:#DC2626"></div><div><b>Danger</b><br>#DC2626 flags</div></div>
+</div></div>
+
+<h2>2. Typography</h2>
+<div class="card type"><div style="font-size:28px;font-weight:800">H1 — Is this normal?</div><div style="font-size:22px;font-weight:700">H2 — Log your symptoms</div><div>Body 16px — Plain words, short sentences. No big medical terms without explanation.</div><div style="font-size:14px">Small 14px — helper text, disclaimers.</div></div>
+
+<h2>3. Buttons / Inputs / PIN</h2>
+<div class="card"><button class="btn btn-p">Log period</button><button class="btn btn-r">Check — Is this normal?</button><button class="btn btn-o">Tell my parent</button><button class="btn btn-g">Skip</button>
+<input class="inp" placeholder="First day of last period (e.g. 12 Sep)">
+<div class="pin"><div>•</div><div>•</div><div>•</div><div></div></div><p class="sub">Min 48px touch targets, high contrast, icon + text.</p></div>
+
+<h2>4. Calendar cell (basics only — no fertile window)</h2>
+<div class="card"><div class="cal"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div><div class="p">12</div><div class="p">13</div><div>14</div><div class="today">15</div><div class="pred">28</div><div class="pred">29</div><div>30</div></div><p class="sub">Solid rose = period, light rose = predicted range, ring = today. Regularity badge: “Regular / Irregular — see why”.</p></div>
+
+<h2>5. Symptom chips</h2>
+<div class="card"><span class="chip on">Cramps — strong</span><span class="chip on">Heavy flow</span><span class="chip">Headache</span><span class="chip">Discharge</span><span class="chip">Missed school</span><p class="sub">One tap, &lt;60 sec to log. Linked to cycle day for triage.</p></div>
+
+<h2>6. Cards + Disclaimer banner</h2>
+<div class="card"><b>Is This Normal? result — example</b><div class="banner b-warn"><b>Talk to a trusted adult soon.</b> 3 short cycles + strong pain that stops school can need a check. This is learning info, not a diagnosis.</div><div class="banner b-info"><b>What to do next:</b> track 1 more cycle, heat + rest for pain, show this summary to mum.</div></div>
+
+<h2>7. States: empty / loading / error / offline</h2>
+<div class="card"><b>Empty:</b> “No periods logged yet — add your first.”<br><br><b>Loading:</b><div class="skel"></div><div class="skel" style="width:60%"></div><b>Error:</b><div class="banner b-danger">Couldn’t save — check connection and retry.</div><b>Offline:</b><div class="banner b-info">You’re offline. Logging + Learn still work, will sync later.</div></div>
+
+<h2>8. Accessibility</h2>
+<div class="card">WCAG AA contrast, 16px base, 48px targets, plain language, icons always paired with text. Discreet palette for shared phones.</div>
+</div>
+<div class="nav"><div class="a">🏠<br>Home</div><div>📅<br>Calendar</div><div>💬<br>Ask Her</div><div>📖<br>Learn</div><div>👪<br>Parent</div></div>
+</body>
+</html>
