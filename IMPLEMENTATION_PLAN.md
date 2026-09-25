@@ -33,27 +33,29 @@ Current repo: `README.md`, `GroomingHer - Qubators.md/.docx` (brief), `PRD.md` (
 
 | Concern | Recommendation | Reason |
 |---|---|---|
-| Web | Next.js (React) + TypeScript + Tailwind, PWA installable, offline cache for Learn + logs | One codebase for all phones, fast on low-end Android, <200KB initial JS target, easy PWA install without Play Store |
-| DB | Supabase Postgres with Row Level Security (RLS) | Postgres reliability + RLS enforces privacy: girl sees only her data, parent sees only explicitly shared summaries; Firebase as fallback only |
-| Auth | Supabase Auth (phone/email + PIN app-lock + session timeout) | Handles minors/shared phones safely; PIN app-lock + short sessions prevent sibling/parent snooping; no custom auth to maintain |
-| Files | Supabase Storage + CDN, compressed images (<100KB), no video in MVP | Low-data Nigeria context; Learn illustrations only, cached offline; keeps hosting simple in one vendor |
-| Payments | None in MVP; later Paystack (Nigeria-first), Flutterwave fallback | MVP is free/educational; Paystack fits Naira, bank transfer, USSD when monetization needed |
-| Email | Supabase built-in auth emails for MVP; Resend if custom templates needed | Zero extra vendor for MVP; Resend adds simple templating for parent invites/reports later |
-| SMS/WhatsApp | MVP: in-app + push reminders only; later Termii (SMS/WhatsApp Nigeria) | Termii has Nigerian routes/pricing; SMS only if reminders prove valuable — avoids cost/complexity now |
-| Hosting | Vercel (frontend) + Supabase (EU/US + CDN) | Free-tier start, fast deploys, global CDN for low bandwidth; keeps frontend/backend decoupled |
-| AI | Rules engine first (`/lib/triage.ts` versioned) + provider-agnostic LLM layer (`/lib/ai.ts`) for tone/explanation, strict system prompt, disclaimer + escalation check on every output | Safety: deterministic red-flag outcomes (heavy flow, severe pain, fever+discharge, <21d/>45d recurring) can't drift; LLM only rephrases age-appropriately; easy to swap OpenAI/Groq/OpenRouter |
-| CI/CD | GitHub Actions: lint + typecheck + tests + RLS policy tests → preview deploy → main deploy | Free, tied to repo, blocks broken/unsafe triage changes from shipping |
+| Web | Next.js (React) + TypeScript + Tailwind PWA, self-hosted with `next start` in Docker. Free/OSS, no Vercel needed | I chose it for one codebase, App Router API routes (no separate backend), PWA install without Play Store, <200KB JS target. Better free option if you want lighter: Vite + React SPA PWA (simpler local hosting, smaller build) — but you lose API routes/SSR, so keep Next.js unless bundle size becomes a problem |
+| DB | Local PostgreSQL 16 in Docker + Drizzle ORM (Prisma alternative). SQLite fallback for zero-setup dev | Full Postgres with zero subscription: `docker compose up db`, data stays on your device, pg_dump backups. Drizzle is light + SQL-like; migrate to managed Postgres later without code change |
+| Auth | Better Auth with Postgres adapter + app-level PIN lock + short sessions | Free OSS, Next.js-native, sessions/users stored in your local Postgres — no Supabase dependency. PIN lock + timeout handles shared phones/minors |
+| Files | Cloudflare R2 (S3-compatible) for prod + MinIO or local filesystem for dev. Compressed images <100KB, no video in MVP | R2 free tier ~10GB + zero egress fees beats Supabase Storage lock-in; S3 API means MinIO locally mirrors prod exactly. Low-data friendly |
+| Payments | None in MVP; later Paystack, Flutterwave fallback | MVP free/educational; Paystack fits Naira/bank/USSD when needed |
+| Email | Resend (free ~100/day) + Nodemailer SMTP fallback for local dev | React templates, simple API for parent invites/verification; SMTP fallback works fully offline on your device |
+| SMS/WhatsApp | MVP: in-app + Web Push only; later Termii (Nigerian SMS/WhatsApp routes) | Avoids cost now; Termii added only if reminders prove valuable |
+| Hosting | Local device: Docker Compose (web + db + minio + umami) + Caddy reverse proxy + Cloudflare Tunnel for public URL | Zero hosting cost, mirrors prod containers, HTTPS via Caddy/Tunnel. Limit: your PC must be on; move to VPS later with same compose file |
+| Realtime MVP | Server-Sent Events (SSE) for share delivery + streaming Ask Her; polling fallback. Socket.io only if two-way needed | No vendor needed: SSE runs on same Next.js server, works over Tunnel, enough for parent shared-inbox update + AI token streaming |
+| AI | Rules engine first (`/lib/triage.ts` versioned) + provider-agnostic LLM layer (`/lib/ai.ts`), disclaimer + escalation every output | Deterministic red-flags (heavy flow, severe pain + missed school, fever+discharge, <21d/>45d recurring) can't drift; LLM only rephrases age-appropriately; swap OpenAI/Groq/OpenRouter via env |
+| Analytics/Errors | Umami (self-hosted analytics) + GlitchTip/Sentry self-hosted (errors), privacy-friendly, no cookies for teens | Free, runs in same compose stack, no third-party teen tracking; Sentry free cloud also OK if you don't want to self-host errors yet |
+| CI/CD | GitHub Actions: lint + typecheck + tests + `docker build` check → push image | Free, blocks broken triage/auth changes; deploys = `docker compose pull/up` on your device for now |
 
-- Data model v1:
+- Data model v1 (local Postgres):
   - `profiles(id, age_band, menarche_status, language, pin_hash)`
   - `cycles(id, profile_id, start_date, end_date, flow)`
   - `symptoms(id, profile_id, cycle_id, date, pain, discharge, acne, bloating, mood, school_missed)`
   - `assessments(id, profile_id, inputs_snapshot, outcome[monitor|adult|professional], explanation, red_flags, created_at)`
   - `shares(id, profile_id, assessment_id, summary_text, shared_at, recipient_type)`
   - `learn_articles(id, slug, age_band, title, body, reviewed_by, locale)`
-- Privacy/safety: PIN + session timeout, discreet app name/icon option, no fertile-window fields anywhere, audit log without storing chat verbatim beyond 30 days (configurable), consent ledger for shares
-- Output: `/docs/architecture.md` + `.env.example`, repo scaffold
-- Exit: ADR-001 (stack), ADR-002 (data + RLS), ADR-003 (AI safety) recorded
+- Privacy/safety: Better Auth sessions + app-layer ownership checks (every query scoped by `profile_id`), PIN + session timeout, discreet mode, no fertile-window fields, 30-day chat retention default, consent ledger for shares
+- Output: `/docs/architecture.md` + `.env.example` + `docker-compose.yml`, repo scaffold
+- Exit: ADR-001 (stack), ADR-002 (local Postgres + access rules), ADR-003 (AI safety) recorded
 
 ## Phase 4 — Build Slices (vertical, each shippable)
 - **Slice 1 — Shell + Auth + Profile:** onboarding, PIN, age/stage personalization. Acceptance: new user completes onboarding <3 min, data in `profiles`.
@@ -65,7 +67,7 @@ Current repo: `README.md`, `GroomingHer - Qubators.md/.docx` (brief), `PRD.md` (
 - **Slice 7 — Learn Basics:** 15 articles from PRD §7.7, age-filtered, plain language. Acceptance: readable offline, reviewed stamp.
 - **Slice 8 — Parent Interface v1:** 6 tabs per PRD §9, consent-only shared inbox. Acceptance: parent cannot query daughter's raw logs.
 
-Each slice: UI + API + RLS + tests + content review.
+Each slice: UI + API + access-check tests + content review.
 
 ## Phase 5 — Content, AI Safety, Localization
 - Triage rules table versioned (`/content/triage-rules.v1.csv`) + clinician review sign-off
@@ -74,7 +76,7 @@ Each slice: UI + API + RLS + tests + content review.
 - Output: `/content/` + review checklist
 
 ## Phase 6 — Quality, Safeguarding, UAT
-- Unit + RLS policy tests, PWA offline test, low-end Android (2GB RAM, 3G) perf test
+- Unit + access-control tests, PWA offline test, low-end Android (2GB RAM, 3G) perf test
 - Safeguarding review: shared-phone scenario, PIN bypass attempt, screenshot/discreet mode, data deletion request
 - UAT with 5 teens + 3 parents; fix P0/P1 only
 - Exit: go/no-go checklist signed
