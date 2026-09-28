@@ -30,13 +30,26 @@ They may rely on friends, social media, or unreliable online sources, leaving th
 
 ## Project Status
 
-Phase 3: app scaffold live in `app/` (Next.js PWA + local Postgres + Better Auth + triage rules). Feature routes land per slice in Phase 4.
+Slices 1–3 live (onboarding + PIN, calendar, symptoms). Slice 4 (Is This Normal?) is next. Full plan in `PRD.md`, roadmap in `PRD.md` Appendix D.
+
+## Roadmap
+
+| When | What | Status |
+|---|---|---|
+| Done | Phases 0–3: research, stories, design, scaffold, DB running | ✅ |
+| Done | Slices 1–3: onboarding, calendar, symptoms | ✅ |
+| **Now** | Slice 4: Is This Normal? (rules + static answers) | ▶️ |
+| Next | Slices 5–6: Ask Her, Tell Parents/Guardian | Planned |
+| After | Slices 7–8: Learn hub, Parent interface | Planned |
+| Then | Content review → testing → school launch | Planned |
 
 ## Repo Contents
 
-- `README.md` — this file
-- `GroomingHer - Qubators.md` — original product brief (markdown)
-- `GroomingHer - Qubators.docx` — original product brief (Word)
+- `README.md` — this file (status + roadmap)
+- `PRD.md` — full product doc: 10-section template, phased plan, roadmap (Appendix D), decisions (Appendix C)
+- `design.html` — visual design system (teen + parent, no gradients)
+- `index.html` — static landing page
+- `app/` — working Next.js app (Slices 1–3)
 
 ## Getting Started
 
@@ -57,10 +70,16 @@ docker compose up --build
 
 ## Roadmap
 
-- [ ] Finalize MVP scope and user stories
-- [ ] Choose tech stack (web / mobile)
-- [ ] Prototype Learn + Track + Ask Her
-- [ ] Safeguarding, privacy, and medical-disclaimer review
+| When | What | Status |
+|---|---|---|
+| Done | Phases 0–3: research, stories, design, scaffold, DB running | ✅ |
+| Done | Slices 1–3: onboarding, calendar, symptoms | ✅ |
+| **Now** | Slice 4: Is This Normal? (rules + static answers) | ▶️ |
+| Next | Slices 5–6: Ask Her, Tell Parents/Guardian | Planned |
+| After | Slices 7–8: Learn hub, Parent interface | Planned |
+| Then | Content review → testing → school launch | Planned |
+
+Details: `PRD.md` Appendix D. Old v0.1 checklist retired — scope is now in `PRD.md` §2 (MoSCoW).
 
 ## License
 

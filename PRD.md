@@ -158,6 +158,22 @@ Full visual system: `design.html` (canonical). Flows F1–F7: `design/user-flows
 
 ---
 
+## Appendix D: Roadmap (now vs next, updated 28 Sep 2026)
+
+| When | What | Status |
+|---|---|---|
+| Done | Phases 0–3: research guides, stories, design system, scaffold, DB running | ✅ Complete |
+| Done | Slices 1–3: onboarding + PIN, calendar, symptom tracker | ✅ Complete |
+| **Now** | Slice 4: Is This Normal? (rules + static answers) | ▶️ Next build |
+| Next | Slices 5–6: Ask Her, Tell Parents/Guardian | Planned |
+| After | Slices 7–8: Learn hub, Parent interface | Planned |
+| Then | Phase 5: content + clinician review pack | Planned |
+| Last | Phase 6 testing (Android + iPhone) → Phase 7 school launch | Planned |
+
+Install paths (no public store): PWA add-to-homescreen (Android + iPhone) and Android APK sideload.
+
+---
+
 ## Appendix A: CSS Variables Reference
 
 ```
