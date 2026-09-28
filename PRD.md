@@ -224,3 +224,6 @@ Locales moved to Could. "Tell My Parent helper" renamed "Tell Parents/Guardian" 
 
 ### Change 14: Survey-driven scope adds (28 Sep 2026)
 First Period Ready track, mood & emotions check-in (Should), nutrition mini-hub, PCOS section, reminders → Must-lite.
+
+### Change 15: Slice 4 rules-first, both install paths, clinician outreach (28 Sep 2026)
+Triage ships with static rules text first; live AI later. Phone testing on cheap Android AND iPhone via PWA install + Android APK sideload (no public store release). No clinician contact yet — review pack to be drafted.
