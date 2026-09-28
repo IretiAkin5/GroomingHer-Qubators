@@ -133,7 +133,7 @@ Acceptance: `tsc` clean, `next build` passes (verified 71s, 103KB first load).
 |---|---|---|
 | 1 — Shell + Auth + Profile | `app/onboarding`, `/api/profile` (scrypt PIN hash) | Done |
 | 2 — Calendar Basic | `app/calendar`, `/api/cycles` (badge + 3-day range, no fertile window) | Done |
-| 3 — Symptom Tracker | Daily chips <60s, linked to cycle day | Next |
+| 3 — Symptom Tracker | Daily chips <60s, linked to cycle day | Done |
 | 4 — Is This Normal? | Rules + LLM tone, 10 golden tests | Planned |
 | 5 — Ask Her | Guardrailed chat, safe-completion | Planned |
 | 6 — Tell My Parent | Summary card + scripts + consent log | Planned |
@@ -163,6 +163,7 @@ Acceptance per slice: US criteria in `specs/user-stories.md` pass; parent API 40
 ## 9. Phase 7 — Launch & Iterate (planned)
 
 Soft launch (1 school/community) → metrics per §1.6 → reminders, journal lite, full offline, more locales.
+Pricing: free for families; schools/NGOs pay for dashboards (see Change 11). School portal scoped here, not MVP (see Change 12).
 
 ---
 
@@ -197,6 +198,33 @@ Full tokens: `design/tokens.json`. Visual: `design.html`. Flat colors only — n
 
 ---
 
+## Appendix C: Survey Findings (Sep–Oct 2025, n=11: 5 teens, 5–6 parents, 1 school)
+
+### Teens
+- 3/5 felt "not prepared at all" for first period; top feelings: embarrassed, confused → validates pre-menarche "First Period Ready" content + Learn basics.
+- Trusted sources are inconsistent (parents, friends, teachers each named both most AND least helpful) → proves need for one consistent trusted source.
+- Hardest parts: school/life balance (4/5), emotional wellbeing (3/5), appearance pressure (3/5), safety/taboos (1/5).
+- 0/5 know any existing platform (greenfield); likelihood to use 4–5/5.
+- Top features: Infection Awareness & Self-Check 5/5, Cycle Tracker 4/5, Community Q&A 3/5, Age-Specific Paths 3/5, PCOS Hub 2/5, Supplements 2/5, Reminders 2/5, Gamification 2/5.
+
+### Parents
+- Comfort talking mostly 4–5/5 but confidence spotting PCOS/endometriosis/infection only 3–4/5 → education gap confirmed; parent guides stay P0.
+- Top challenges: awkwardness/shyness/generation gap, daughter won't open up, no specific guide for young girls.
+- Top features: Alerts on unusual cycles, Infection Awareness, Age-specific parent education, Parent Dashboard.
+- Willingness to pay: majority ₦1,000–₦2,999/month subscription; range ₦0–₦5,000+; mostly subscription, some one-time.
+
+### School (private school, Kaduna)
+- Challenges: period management at school (toilets/water/disposal), shame/bullying, parents avoid the talk, one-off programs.
+- Wants: age paths, tracker, infection check, parent dashboard; ₦1,000–₦2,999 subscription.
+
+### Coverage check vs PRD
+- Validated as-is: tracker, age-specific learning, infection self-check (= #1 teen pick, hero it), alerts, parent dashboard/education, Ask Her.
+- New/strengthened: pre-menarche preparedness, mood & emotions support, nutrition & lifestyle mini-hub, PCOS as dedicated Learn section, reminders bump.
+- Parked by owner decision: Supplements Guide (Change 9), Community Q&A (Change 10).
+- Caveats: small sample; 2 responses share the owner's email (likely self-test); 2 respondents UK-based diaspora (separate segment); satisfaction Q not applicable (no app yet).
+
+---
+
 ## Appendix B: Change Log (owner decisions)
 
 ### Change 1: Auth — Better Auth instead of Supabase Auth (25 Sep 2026)
@@ -222,3 +250,15 @@ Full tokens: `design/tokens.json`. Visual: `design.html`. Flat colors only — n
 
 ### Change 8: Repo restructured on sample (27 Sep 2026)
 **Decided:** mirror KelvinOdems/income-tracker — root `PRD.md` (brief + implementation plan + change log), root `design.html` (visual system), root `index.html` (landing). Working app stays in `app/`.
+
+### Change 9: Supplements Guide parked (28 Sep 2026)
+**Survey said:** popular with parents and teens. **Decided:** drop for MVP. **Why:** recommending supplements to minors without a clinician partner is unsafe; revisit only with professional review.
+
+### Change 10: Community Q&A stays out (28 Sep 2026)
+**Survey said:** high demand from teens and parents. **Decided:** keep excluded for MVP, private Ask Her only. **Why:** peer teen community needs full-time moderation we don't have; safety first.
+
+### Change 11: Pricing — free families, schools/NGOs pay (28 Sep 2026)
+**Survey said:** most parents accept ₦1,000–₦2,999/month subscription; some want one-time; one won't pay. **Decided:** launch free for families; paid dashboards for schools/NGOs. **Why:** widest access for girls, revenue from institutions.
+
+### Change 12: School portal is Phase 7, not MVP (28 Sep 2026)
+**Survey said:** Kaduna school needs hygiene resources, anti-bullying, continuous (not one-off) support. **Decided:** third user type scoped for later. **Why:** families first; schools enter via paid dashboards at launch phase.
