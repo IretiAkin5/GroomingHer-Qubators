@@ -1,186 +1,160 @@
 # Product Requirements Document: GroomingHer
 
-## 1. Overview
+## 1. Introduction of GroomingHer
 
-**Product Name:** GroomingHer
-**Version:** 0.3 (scaffold + Slices 1–2 built)
-**Platform:** Web (mobile-first PWA, self-hosted with Docker)
-**Core Requirement:** Private period tracking + educational triage for teens; parents see only what is shared.
+**Overview:** GroomingHer is a trusted, age-appropriate, culturally relevant health companion for adolescent girls aged 12–19 in Nigeria navigating puberty, menstruation, body changes, and early reproductive health.
 
-### 1.1 Purpose
+**Purpose:** She logs what she feels, learns whether it is within normal range, and gets help telling a parent or trusted adult — through one steady voice instead of conflicting advice from friends and social media. Educational information only; never a diagnosis.
 
-A trusted, age-appropriate, culturally relevant health companion for adolescent girls aged 12–19 in Nigeria navigating puberty, menstruation, body changes, and early reproductive health. She logs what she feels, learns whether it is within normal range, and gets help telling a parent or trusted adult. Educational information only — never a diagnosis.
+**Target users:** Primary — girls 12–19. Secondary — parents/guardians. Future — schools/NGOs (Phase 7, paid dashboards).
 
-### 1.2 Target Audience
+**Scope (MVP):** Signup + PIN-secured profiles, basic period calendar (no fertile window), symptom tracker, "Is This Normal?" triage with infection self-check, private "Ask Her" companion, "Tell Parents/Guardian" helper, parent interface, Learn basics (incl. First Period Ready, PCOS, nutrition), reminders. English only.
 
-- Primary: adolescent girls 12–19 who may be embarrassed to ask parents, teachers, or health workers.
-- Secondary: parents/guardians who want reliable guidance on what to watch for and how to start the conversation.
+**Key objectives:**
+1. Every user can complete log → understand → next step → who to tell.
+2. 70% onboarding completion; 80% triage completion; ≥30% two-cycle retention.
+3. Zero teen private data visible to parents without explicit consent.
+4. Build-verified, self-hosted, <200KB first load.
 
-### 1.3 Design Principles
+## 2. Problem Statement
 
-1. **Privacy by Default** — PIN lock, discreet mode, consent-only sharing, no teen PII in analytics.
-2. **Age-appropriate** — age-12 reading level, no shame words, no diagnosis labels, no fertile window.
-3. **Low-data, shared-phone reality** — <200KB first load, offline logging + Learn, 48px touch targets.
-4. **Rules before AI** — deterministic triage bands; LLM only rephrases tone.
-5. **Accessibility** — WCAG 2.1 AA, icon + text labels.
+**The problem:** Adolescent girls experience first periods, irregular cycles, pain, acne, discharge, and early signs of PCOS, endometriosis, and infections without trusted guidance. 3 of 5 surveyed teens felt "not prepared at all" for their first period; most felt embarrassed or confused.
 
-### 1.4 Architecture
+**Who experiences it:** Girls 12–19 (especially those with no one to talk to — 1 in 5 surveyed), and their parents, who are mostly willing to talk (4–5/5 comfort) but only medium-confident (3–4/5) spotting real conditions, blocked by awkwardness, shyness, and "no specific guide for young girls."
 
-- **Web:** Next.js (React) + TypeScript + Tailwind PWA, self-hosted `next start` in Docker.
-- **DB:** Local PostgreSQL 16 in Docker + Drizzle ORM. Privacy enforced in app code (profileId-scoped queries).
-- **Auth:** Better Auth with Postgres adapter + app-level 4-digit PIN lock.
-- **Files:** Cloudflare R2 (prod) + MinIO local dev, S3 API.
-- **Email:** Resend (+ SMTP fallback locally).
-- **Realtime (MVP):** Server-Sent Events + polling fallback; no vendor.
-- **Hosting:** Local device via Docker Compose (web + db + minio) + Caddy + Cloudflare Tunnel.
-- **Analytics/Errors:** Umami + GlitchTip/Sentry self-hosted, cookieless.
-- **CI/CD:** GitHub Actions (lint, typecheck, tests, docker build).
+**Impact:** Girls rely on friends and social media — sources our survey showed are simultaneously the *most* and *least* helpful. Result: confusion, worry, missed school, late care. Schools report shame, bullying, and one-off programs that don't stick.
 
-### 1.5 Technical Requirements
+**Why solving it matters:** A consistent, private, medically-careful guide catches patterns early (irregularity, infection signs), keeps girls in school, and gives parents words and checklists instead of awkwardness.
 
-#### Data Model (local Postgres)
+**Priority (MoSCoW):**
 
-- `profiles(id, age_band, menarche_status, language, pin_hash)`
-- `cycles(id, profile_id → profiles, start_date, end_date, flow)`
-- `symptoms(id, profile_id, cycle_id, date, pain 0–5, discharge, acne, bloating, mood, school_missed)`
-- `assessments(id, profile_id, inputs_snapshot, outcome[monitor|adult|professional|urgent], explanation, red_flags)`
-- `shares(id, profile_id, assessment_id, summary_text, recipient_type)` — consent ledger
-- `learn_articles(id, slug, age_band, title, body, locale)`
+**Must (MVP):** Signup/login + PIN · Onboarding/profile · Calendar basic · Symptom tracker · Is This Normal? triage (infection self-check hero) · Ask Her · Tell Parents/Guardian · Parent interface · Safety/disclaimer/discreet mode · Learn basics + First Period Ready + PCOS section + nutrition mini-hub · Reminders (period + log nudges).
 
-#### Triage Bands (rules engine, `app/lib/triage.ts`)
+**Should (v1.1, English only):** Mood & emotions check-in · Full offline mode.
 
-| Band | Meaning |
+**Could:** Pidgin/Hausa/Yoruba/Igbo · Gamification badges · Mood/cycle charts · Data export.
+
+**Won't (MVP):** Community Q&A (safety) · Supplements Guide (needs clinician) · Fertile window, diagnosis, doctor chat (out of scope/risky) · School portal (Phase 7).
+
+## 3. Proposed Solution
+
+A mobile-first PWA where the core loop is: **log → understand → next step → who to tell.**
+
+| Feature | How it solves the problem |
 |---|---|
-| monitor | Normal range — self-care + what to watch for |
-| adult | Talk to a trusted adult |
-| professional | See a healthcare professional soon + clinic checklist |
-| urgent | Tell an adult now, clinic/emergency (R6: sudden severe pain, fainting) |
+| Calendar basic + regularity badge | Answers "is my cycle normal?" with her own data; 3-day prediction window helps her prepare (pads, school) |
+| Symptom tracker (pain, discharge, mood, missed school) | Teaches her what to observe; structured input the triage needs |
+| Is This Normal? (rules-first triage) | Deterministic bands (monitor / adult / professional / urgent); infection self-check front and center — the #1 teen pick |
+| Ask Her | Private answers for questions she's embarrassed to ask aloud |
+| Tell Parents/Guardian | Summary card + direct/gentle scripts; turns "how do I tell mum?" into one tap |
+| Parent interface | Alerts, what-to-watch guides, conversation openers — fixes the 3–4/5 confidence gap |
+| Learn basics + First Period Ready + PCOS + nutrition | Attacks the 3/5 "not prepared" rate and top-requested topics |
+| Reminders | Period + log nudges; drives the retention metric |
 
-Red-flag inputs: soaking pad <2h, bleeding >7 days, pain 4–5 + missed school, fever + discharge, cycles <21d or >45d recurring, no period by 16. Draft status — requires clinician sign-off before launch.
+**Key components:** Next.js PWA · local Postgres + Drizzle · Better Auth + PIN · versioned triage rules · provider-agnostic AI tone layer · consent-logged sharing.
 
-### 1.6 Non-Functional Requirements
+**How it improves today:** replaces scattered, contradictory sources with one consistent, private, clinician-reviewable path that always ends in a next step and a person to talk to.
 
-- **Performance:** First load <200KB JS; log a period <30s; log symptoms <60s; onboarding <3 min.
-- **Reliability:** Offline logging + Learn work; sync later; graceful “needs connection” for AI features.
-- **Privacy:** Parents read `shares` only (API 403-tested); chats retained 30 days, deletable; delete-my-data wipe.
-- **Safety:** Disclaimer on onboarding, every triage/AI output, and parent view.
+**Alternatives considered:** Supabase Auth/DB/storage (rejected: subscription cost + lock-in) → local Postgres + Better Auth + R2; peer community (rejected: moderation risk) → expert-reviewed content + private AI; native apps (rejected: install friction, storage) → PWA.
 
----
+## 4. Product Positioning
 
-## 2. Phase 0 — Research (done: guides + drafts; fieldwork pending)
+- **Target customer:** Nigerian families with daughters 12–19; later, schools/NGOs.
+- **Feature category:** Adolescent menstrual & puberty health companion.
+- **Core benefit:** She always knows what's normal, what to do next, and who to tell — privately.
+- **Key differentiators:** (1) rules-first medical safety, never diagnosis; (2) consent-only parent sharing — no spying; (3) built for shared phones, low data, Nigerian context; (4) greenfield — survey found zero known alternatives.
+- **Competitive positioning:** General period trackers (fertility-focused, adult, foreign) vs GroomingHer (teen-first, education-first, parent-inclusive, local).
+- **Positioning statement:** *For Nigerian girls growing up and the parents who love them, GroomingHer is the private companion that explains body changes and guides next steps — because growing up shouldn't be confusing.*
 
-**Goal:** Validate vocabulary, phone/data reality, and top questions.
-**Concrete outputs:** `research/teen-interview-guide.md`, `research/parent-interview-guide.md`, `research/vocabulary-v1.md`, `research/red-flags-v1.md` (draft).
+## 5. Features & Functionality
 
-| Feature | Description | Priority |
-|---|---|---|
-| Teen interviews (5–8) | Phone sharing, tracking habits, help-seeking, trust | P0 |
-| Parent interviews (3–5) | Worry signs, conversation blockers, privacy lines | P0 |
-| Vocabulary v1 | Approved vs mirror-only words, tone rules | P0 |
-| Red-flag list v1 | 6 draft patterns mapped to bands | P0 |
-
-Acceptance: anonymized notes in `research/notes/`; red flags clinician-reviewed before build use.
-
-## 3. Phase 1 — Product Definition (done)
-
-**Goal:** User stories + acceptance criteria for the 7 Must-Haves + metrics plan.
-**Concrete output:** `specs/user-stories.md` (US-1…US-7, metrics table with MVP targets).
-
-| Feature | Description | Priority |
-|---|---|---|
-| US-1 Profile/onboarding | Age band, menarche, language, PIN | P0 |
-| US-2 Calendar basic | Log start/end/flow, regularity badge, 3-day prediction | P0 |
-| US-3 Symptom tracker | One-tap chips linked to cycle day | P0 |
-| US-4 Is This Normal? | One band + watch-for + disclaimer; 10 golden tests | P0 |
-| US-5 Ask Her | Private Q&A, red-flag handoff to triage | P0 |
-| US-6 Tell My Parent | Summary card + 2 scripts, consent-logged | P0 |
-| US-7 Safety/disclaimer | Discreet mode, delete-my-data | P0 |
-
-## 4. Phase 2 — UX & Design System (done, v1.0)
-
-**Goal:** Flows, wireframes, tokens, visual preview for teen + parent.
-**Concrete outputs:** `design.html` (canonical, root), `design/tokens.json`, `design/components.md`, `design/user-flows.md` (F1–F7), `design/wireframes.md` (W1–W8), `design/preview.html`, `design/parent-preview.html`.
-
-| Feature | Description | Priority |
-|---|---|---|
-| User flows F1–F7 | Onboarding → log → triage → tell parent; Ask Her; parent view | P0 |
-| 8 wireframes | Layout, components, states, no dead ends | P0 |
-| Design tokens | Plum/rose palette, Nunito, radii, 48px targets | P0 |
-| design.html | Colors, typography, buttons, inputs, teen + parent samples, flat (no gradients) | P0 |
-
-Acceptance: every AI/triage screen has a disclaimer banner; offline/empty/error states specified; prototype tested with 3 teens.
-
-## 5. Phase 3 — Architecture & Scaffold (done, build-verified)
-
-**Goal:** Runnable skeleton: web + DB + auth + triage engine + Docker.
-**Concrete outputs:** `app/` (Next.js), `app/lib/{db,schema,auth,triage,ai}.ts`, `app/drizzle/` migration, `docker-compose.yml`, `docs/architecture.md`, health endpoint.
-
-| Feature | Description | Priority |
-|---|---|---|
-| Next.js PWA shell | Layout, home, manifest, /api/health | P0 |
-| Drizzle schema + migration | 6 tables | P0 |
-| Better Auth wiring | Postgres adapter, sessions | P0 |
-| Triage engine | R1–R6 pure function + disclaimer | P0 |
-| Docker Compose | web + Postgres 16 + MinIO | P0 |
-
-Acceptance: `tsc` clean, `next build` passes (verified 71s, 103KB first load).
-
-## 6. Phase 4 — Build Slices (in progress: Slices 1–2 done)
-
-**Goal:** Ship Must-Haves one slice at a time, each with UI + API + tests.
-
-| Slice | Output | Status |
-|---|---|---|
-| 1 — Shell + Auth + Profile | `app/onboarding`, `/api/profile` (scrypt PIN hash) | Done |
-| 2 — Calendar Basic | `app/calendar`, `/api/cycles` (badge + 3-day range, no fertile window) | Done |
-| 3 — Symptom Tracker | Daily chips <60s, linked to cycle day | Done |
-| 4 — Is This Normal? | Rules + LLM tone, 10 golden tests | Planned |
-| 5 — Ask Her | Guardrailed chat, safe-completion | Planned |
-| 6 — Tell My Parent | Summary card + scripts + consent log | Planned |
-| 7 — Learn Basics | 15 articles, age-filtered, offline | Planned |
-| 8 — Parent Interface v1 | 6 tabs, shared-cards-only API | Planned |
-
-Acceptance per slice: US criteria in `specs/user-stories.md` pass; parent API 403-tested against raw teen data.
-
-## 7. Phase 5 — Content, AI Safety, Localization (planned)
-
-| Feature | Description | Priority |
-|---|---|---|
-| Triage rules v1 + tests | Versioned CSV + 10 golden cases + clinician sign-off | P0 |
-| Ask Her prompt v1 | Age-adaptive, Nigerian context, no-diagnosis | P0 |
-| Learn review log | 15 articles reviewed + stamped | P0 |
-| Pidgin + glossary | Pidgin starter, Hausa/Yoruba/Igbo glossary | P1 |
-
-## 8. Phase 6 — Quality, Safeguarding, UAT (planned)
-
-| Feature | Description | Priority |
-|---|---|---|
-| Access-control tests | Profile-scoped queries, parent 403s | P0 |
-| Low-end Android test | 2GB RAM, 3G, offline flows | P0 |
-| Safeguarding review | Shared-phone, PIN bypass, discreet, deletion | P0 |
-| UAT 5 teens + 3 parents | P0/P1 fixes only, go/no-go checklist | P0 |
-
-## 9. Phase 7 — Launch & Iterate (planned)
-
-Soft launch (1 school/community) → metrics per §1.6 → reminders, journal lite, full offline, more locales.
-Pricing: free for families; schools/NGOs pay for dashboards (see Change 11). School portal scoped here, not MVP (see Change 12).
-
----
-
-## 10. index.html
-
-`index.html` (repo root) is the static landing page: product intro, journey, feature list, links to `design.html` and the repo. It is the public face; the working app lives in `app/`. Section status: live, update copy at launch.
-
-## 11. Risks & Mitigations
-
-| Risk | Likelihood | Impact | Mitigation | Phase |
+| Name | Description | Purpose | User benefit | Role |
 |---|---|---|---|---|
-| Triage advice wrong/harmful | Medium | High | Rules-first engine, clinician sign-off, disclaimers, never diagnose | 5 |
-| Parent sees private data | Low | High | Shares-only API, 403 tests, consent ledger | 4 |
-| Shared-phone snooping | High | Medium | PIN + timeout + discreet mode | 4 |
-| Low data/storage phones | High | Medium | <200KB JS, compressed images, offline-first | 3 |
-| Docker/hosting downtime (local device) | Medium | Medium | Same compose file moves to VPS later | 3 |
-| AI provider cost/drift | Medium | Medium | Provider-agnostic layer, stub default, rules decide bands | 5 |
+| Signup + Login + PIN | Better Auth account + 4-digit app lock, 5-min timeout | Private access on shared phones | Siblings can't snoop | Teen, Parent |
+| Onboarding/Profile | Age band, menarche status, language | Personalize ranges + content | A 12-year-old never sees 19-year-old content | Teen |
+| Calendar | Log start/end/flow; history; regularity badge; 3-day prediction | Track + spot irregularity early | Knows when period comes; sees Regular/Irregular | Teen |
+| Symptom Tracker | Pain 1–5, discharge, acne, bloating, mood, missed school | Structured observation | <60s logging; patterns visible on calendar | Teen |
+| Is This Normal? | Rules engine → band + explanation + watch-for + disclaimer | Triage worry into action | Knows: monitor / tell adult / clinic + checklist | Teen |
+| Ask Her | Guardrailed private Q&A with follow-ups | Answer embarrassing questions | Judgment-free answers + handoff to triage on flags | Teen |
+| Tell Parents/Guardian | Shareable summary card + 2 scripts (direct/gentle) | Start the conversation | One tap instead of fear | Teen |
+| Parent Interface | Home, Guides, Shared inbox, Learn, Find Help, Settings | Equip the adult | Watches, words, clinic prep; sees shared cards only | Parent |
+| Learn Hub | 15+ short articles: periods, hygiene, myths, PCOS, nutrition, First Period Ready | Trusted education | Replaces TikTok myths | Teen, Parent |
+| Reminders | Period-likely + log nudges (in-app/push) | Preparation + retention | Never caught off guard | Teen |
+| Safety Suite | Discreet mode, disclaimers, 30-day chat retention, delete-my-data | Trust + compliance | Control over her data | All |
+
+## 6. User Personas (from Sep 2025 survey)
+
+**P1 — Amara, 16, Aso Maraba (the unsupported teen).** No one to talk to; learned from social media; felt "confident managing" but wants tracker + infection info + reminders. Goals: know what's normal privately. Pain: isolation. Tech: shared phone, low data. Expects: privacy, simple words.
+
+**P2 — Zainab, 14, Bwari (the embarrassed beginner).** Parent available but too embarrassed to be noticed; somewhat prepared; parents most helpful, websites least. Goals: understand body changes without shame. Needs: age-specific paths, gentle tone. Tech: parent's phone.
+
+**P3 — Mrs. E., 39, Bwari (the willing parent).** Comfort 5/5 talking, confidence 3/5 spotting conditions; first move is talk + hospital; blocked by "no specific guide for young girls." Goals: identify issues early, know how to help. Wants: alerts, infection self-check, parent education. Pays ₦1–3k/month subscription.
+
+**P4 — Mr. M., 31, Nnewi (the uncomfortable parent).** Comfort 1/5; would google or ask friends; "talking about it" is the challenge. Goals: a dashboard that tells him what matters. Wants: alerts, parent education, community answers. Tech: smartphone, prefers subscription.
+
+**P5 — Kaduna private school (the institution).** Girls struggle with toilets/water/disposal, shame, bullying; parents avoid the talk; programs are one-off. Goals: continuous, stigma-free support. Wants: age paths, tracker, infection check, parent dashboard. Pays ₦1–3k; Phase-7 customer.
+
+## 7. User Roles, JTBD, Stories & Acceptance Criteria
+
+**Roles:** Teen (account owner, logger, asker, sharer) · Parent (guide-reader, share-receiver) · System/Clinician-reviewer (content approver, future).
+
+**JTBD:**
+- Teen: "When something changes in my body, help me know if it's normal and what to do, without anyone judging me."
+- Parent: "When my daughter might have a problem, show me what to watch for and how to talk about it."
+
+**Stories (see `specs/user-stories.md` for full US-1…US-7):**
+- As a teen, I want 4-step onboarding so I see only content for my stage. *AC: <3 min on 3G; menarche=no hides cycle questions; profiles row created.*
+- As a teen, I want PIN lock so siblings can't open my data. *AC: 5-min timeout; 5 wrong tries → cooldown.*
+- As a teen, I want to log a period in <30s so tracking sticks. *AC: saved + visible same day; no fertility field exists in UI/API/DB.*
+- As a teen with 2+ cycles, I want a regularity badge + 3-day window so I can prepare. *AC: badge only with ≥2 cycles; never a single exact day.*
+- As a teen, I want one-tap symptom logging so I learn what to observe. *AC: <60s; linked to cycle day; dots on calendar.*
+- As a worried teen, I want one clear band + next step so I stop spiraling. *AC: 10 golden tests pass; red flags → clinic checklist; never a diagnosis label.*
+- As a teen, I want a summary + scripts so telling mum is easy. *AC: consent-logged share; copy/show/send options.*
+- As a parent, I want shared-cards-only access so I help without snooping. *AC: raw logs/chats return 403.*
+- As any user, I want discreet mode + disclaimers so I'm safe. *AC: one-tap toggle; disclaimer on onboarding + every AI/triage output; delete-my-data wipes all.*
+
+## 8. User Interface (UI)
+
+Full visual system: `design.html` (canonical). Flows F1–F7: `design/user-flows.md`. Wireframes W1–W8: `design/wireframes.md`.
+
+**Key screens:** Onboarding (4 steps) · Home (greeting, next-range card, shortcuts) · Calendar (month grid, bottom-sheet logger, history) · Symptoms (chip groups) · Triage result (band banner + watch-for + disclaimer) · Ask Her (chat + follow-ups) · Tell Parents/Guardian (card preview + scripts) · Parent Space (6 tabs, solid plum header).
+
+**Navigation:** teen bottom nav (Home, Calendar, Ask Her, Learn, Parent-side entry separate); parent tab pills. No dead ends — every button mapped in flows.
+
+**Layout:** mobile 390px first, max-width 480px column, 16px base, 48px targets, 10/14/20px radii. Flat colors, zero gradients.
+
+**Interaction patterns:** one-tap chips, bottom sheets for logging, skeleton loading, retry banners, offline "will sync" notes, consent preview before any share.
+
+**Accessibility:** WCAG 2.1 AA contrast, icon + text labels, plain language, discreet grey palette mode, keyboard-reachable actions.
+
+## 9. Technical Requirements (from implementation plan)
+
+- **Platforms:** Mobile-first responsive PWA (installable, offline cache); desktop works.
+- **Stack:** Next.js 15 + React 19 + TypeScript + Tailwind v4.
+- **Languages:** TypeScript throughout; SQL via Drizzle.
+- **Frameworks/libs:** Better Auth (auth), Drizzle ORM (data), Resend (email), `pg` driver.
+- **APIs (built):** `/api/health`, `/api/profile` (scrypt PIN hash), `/api/cycles` (log + stats), `/api/symptoms`. Planned: assessments, shares, Ask Her (SSE streaming).
+- **Third-party:** Cloudflare R2 (files), Resend (mail), Termii later (SMS), LLM provider-agnostic (stub default).
+- **Database:** Local PostgreSQL 16 (Docker) + Drizzle; 6 tables (profiles, cycles, symptoms, assessments, shares, learn_articles); migration in `app/drizzle/`.
+- **Authentication:** Better Auth (Postgres adapter, 7-day sessions) + app PIN (scrypt) + timeouts.
+- **Hosting/infra:** Docker Compose (web + db + minio) + Caddy + Cloudflare Tunnel; `docker compose up --build`.
+- **Hardware:** Runs on developer PC; verified targets: 2GB-RAM Android + 3G for UAT.
+- **Dependencies:** Node 20 + Docker; `npm run build` verified (103KB first load).
+
+## 10. Non-Functional Requirements
+
+| Area | Requirement |
+|---|---|
+| Performance | First load <200KB JS; log period <30s; symptoms <60s; onboarding <3 min |
+| Security | scrypt PIN hashes; profile-scoped queries; parent 403-tested; no secrets in repo |
+| Scalability | Same compose file moves to VPS; stateless web tier |
+| Availability | Local device must be on (known limit); offline logging always works |
+| Reliability | Offline-first logging/Learn; sync later; graceful AI-offline states |
+| Accessibility | WCAG 2.1 AA; 48px targets; plain language |
+| Usability | <60s core tasks; no dead ends; discreet mode |
+| Compatibility | Modern Android Chrome, iOS Safari; low-end devices in UAT |
+| Maintainability | Versioned triage rules; ADRs in `docs/`; CI lint/type/test/docker build |
+| Data privacy | Consent ledger; 30-day chat retention; delete-my-data; cookieless analytics; zero teen PII in events |
 
 ---
 
@@ -198,67 +172,55 @@ Full tokens: `design/tokens.json`. Visual: `design.html`. Flat colors only — n
 
 ---
 
-## Appendix C: Survey Findings (Sep–Oct 2025, n=11: 5 teens, 5–6 parents, 1 school)
+## Appendix B: Survey Findings (Sep–Oct 2025, n=11)
 
-### Teens
-- 3/5 felt "not prepared at all" for first period; top feelings: embarrassed, confused → validates pre-menarche "First Period Ready" content + Learn basics.
-- Trusted sources are inconsistent (parents, friends, teachers each named both most AND least helpful) → proves need for one consistent trusted source.
-- Hardest parts: school/life balance (4/5), emotional wellbeing (3/5), appearance pressure (3/5), safety/taboos (1/5).
-- 0/5 know any existing platform (greenfield); likelihood to use 4–5/5.
-- Top features: Infection Awareness & Self-Check 5/5, Cycle Tracker 4/5, Community Q&A 3/5, Age-Specific Paths 3/5, PCOS Hub 2/5, Supplements 2/5, Reminders 2/5, Gamification 2/5.
-
-### Parents
-- Comfort talking mostly 4–5/5 but confidence spotting PCOS/endometriosis/infection only 3–4/5 → education gap confirmed; parent guides stay P0.
-- Top challenges: awkwardness/shyness/generation gap, daughter won't open up, no specific guide for young girls.
-- Top features: Alerts on unusual cycles, Infection Awareness, Age-specific parent education, Parent Dashboard.
-- Willingness to pay: majority ₦1,000–₦2,999/month subscription; range ₦0–₦5,000+; mostly subscription, some one-time.
-
-### School (private school, Kaduna)
-- Challenges: period management at school (toilets/water/disposal), shame/bullying, parents avoid the talk, one-off programs.
-- Wants: age paths, tracker, infection check, parent dashboard; ₦1,000–₦2,999 subscription.
-
-### Coverage check vs PRD
-- Validated as-is: tracker, age-specific learning, infection self-check (= #1 teen pick, hero it), alerts, parent dashboard/education, Ask Her.
-- New/strengthened: pre-menarche preparedness, mood & emotions support, nutrition & lifestyle mini-hub, PCOS as dedicated Learn section, reminders bump.
-- Parked by owner decision: Supplements Guide (Change 9), Community Q&A (Change 10).
-- Caveats: small sample; 2 responses share the owner's email (likely self-test); 2 respondents UK-based diaspora (separate segment); satisfaction Q not applicable (no app yet).
+Teens: 3/5 unprepared for first period; sources inconsistent (proves need for one trusted voice); hardest = school balance, emotions, appearance; 0/5 know any platform; likelihood 4–5/5; top = Infection Self-Check 5/5, Tracker 4/5, Community 3/5, Age Paths 3/5, PCOS/Supplements/Reminders/Gamification 2/5 each.
+Parents: comfort 4–5 (one 1/5), confidence 3–4; top = Alerts, Infection, Parent education, Dashboard; pay mostly ₦1–3k/month subscription.
+School (Kaduna): toilets/water, bullying, one-off programs; wants age paths, tracker, infection check, dashboard.
+Coverage: tracker, age learning, infection check, alerts, parent dashboard, Ask Her all validated. New: pre-menarche prep, mood support, nutrition hub, PCOS section, reminders bump. Parked: Supplements (Change 9), Community (Change 10). Caveats: small sample; owner email twice (likely self-test); 2 UK diaspora; satisfaction Q N/A.
 
 ---
 
-## Appendix B: Change Log (owner decisions)
+## Appendix C: Change Log (owner decisions)
 
 ### Change 1: Auth — Better Auth instead of Supabase Auth (25 Sep 2026)
-**Asked about:** which login tool to use. **Decided:** Better Auth with local Postgres adapter. **Why:** free and open-source, lives in our Next.js app, needs no paid account; sessions stay in our own database. PIN lock added on top for shared phones.
+Free, open-source, in-app; sessions in our own DB. PIN lock on top for shared phones.
 
 ### Change 2: Database — local PostgreSQL, no Supabase subscription (25 Sep 2026)
-**Decided:** PostgreSQL 16 in Docker on our own machine + Drizzle ORM. **Why:** Supabase needs a paid subscription; local Postgres is free, full-featured, and moves to any host later unchanged.
+Postgres 16 in Docker + Drizzle. Free, moves anywhere later.
 
 ### Change 3: Files — Cloudflare R2 instead of Supabase Storage (25 Sep 2026)
-**Decided:** R2 (prod) + MinIO (local). **Why:** R2 free tier ~10GB with zero download fees; S3-compatible so local MinIO mirrors it exactly.
+R2 (prod) + MinIO (local). ~10GB free, zero egress fees, S3-compatible.
 
 ### Change 4: Email — Resend (25 Sep 2026)
-**Decided:** Resend (+ SMTP fallback locally). **Why:** simple templates, free tier covers parent invites; works offline via fallback.
+React templates, free tier; SMTP fallback locally.
 
 ### Change 5: Hosting — own machine, not Vercel/Supabase (25 Sep 2026)
-**Decided:** Docker Compose locally + Cloudflare Tunnel. **Why:** zero cost now; same files deploy to a server later. Noted 27 Sep: Docker Desktop installed successfully.
+Docker Compose + Tunnel. Zero cost; same files to VPS later. Docker Desktop installed 27 Sep; engine running 28 Sep.
 
 ### Change 6: Calendar — no fertile window (25 Sep 2026)
-**Decided:** period basics only (start/end, flow, regularity, 3-day prediction). **Why:** teens need to know if periods are regular and flag issues early — fertility tracking is out of scope and inappropriate.
+Basics only. Fertility tracking out of scope for teens.
 
 ### Change 7: Design — all gradients removed (27 Sep 2026)
-**Requested:** remove gradients from parent interface. **Changed:** parent header gradient → solid plum `#7C2D52`; audit of all previews — logo/skeleton gradients in teen preview also replaced with flat fills. **Verified:** `design.html` (new canonical file) contains zero gradients; teen + parent samples included. Old `design/` previews kept for reference.
+Parent header → solid plum; teen preview gradients → flat fills. `design.html` verified zero gradients.
 
 ### Change 8: Repo restructured on sample (27 Sep 2026)
-**Decided:** mirror KelvinOdems/income-tracker — root `PRD.md` (brief + implementation plan + change log), root `design.html` (visual system), root `index.html` (landing). Working app stays in `app/`.
+Root `PRD.md` + `design.html` + `index.html`; app in `app/`.
 
 ### Change 9: Supplements Guide parked (28 Sep 2026)
-**Survey said:** popular with parents and teens. **Decided:** drop for MVP. **Why:** recommending supplements to minors without a clinician partner is unsafe; revisit only with professional review.
+Popular but unsafe to advise minors without a clinician partner.
 
 ### Change 10: Community Q&A stays out (28 Sep 2026)
-**Survey said:** high demand from teens and parents. **Decided:** keep excluded for MVP, private Ask Her only. **Why:** peer teen community needs full-time moderation we don't have; safety first.
+High demand, but no moderation capacity; private Ask Her only.
 
 ### Change 11: Pricing — free families, schools/NGOs pay (28 Sep 2026)
-**Survey said:** most parents accept ₦1,000–₦2,999/month subscription; some want one-time; one won't pay. **Decided:** launch free for families; paid dashboards for schools/NGOs. **Why:** widest access for girls, revenue from institutions.
+Survey: ₦1–3k/month acceptable; launch free for access, institutions pay.
 
-### Change 12: School portal is Phase 7, not MVP (28 Sep 2026)
-**Survey said:** Kaduna school needs hygiene resources, anti-bullying, continuous (not one-off) support. **Decided:** third user type scoped for later. **Why:** families first; schools enter via paid dashboards at launch phase.
+### Change 12: School portal is Phase 7 (28 Sep 2026)
+Families first; schools via paid dashboards later.
+
+### Change 13: Should-have = English only; Tell Parents/Guardian rename (28 Sep 2026)
+Locales moved to Could. "Tell My Parent helper" renamed "Tell Parents/Guardian" everywhere.
+
+### Change 14: Survey-driven scope adds (28 Sep 2026)
+First Period Ready track, mood & emotions check-in (Should), nutrition mini-hub, PCOS section, reminders → Must-lite.
