@@ -261,3 +261,6 @@ Triage ships with static rules text first; live AI later. Phone testing on cheap
 
 ### Change 17: PIN-first auth, phone/Google parked (29 Sep 2026)
 Start with PIN lock only (set at onboarding + unlock gate + timeout). Phone OTP and Google signup held for later — specced, not built.
+
+### Change 18: AI integration planned, safety gates first (29 Sep 2026)
+Owner will integrate live AI only after safety is assured. Gates: rules engine decides all triage bands (LLM rephrases only) · system prompt with no-diagnosis + escalation + disclaimer on every output · red-flag auto-handoff to triage/adult · 30-day chat retention with delete · clinician review of prompts + golden test suite passing · provider-agnostic layer so models can be swapped. Slice 5 ships stubbed (reviewed answer library).
