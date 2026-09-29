@@ -8,7 +8,18 @@
 
 **Target users:** Primary — girls 12–19. Secondary — parents/guardians. Future — schools/NGOs (Phase 7, paid dashboards).
 
-**Scope (MVP):** Signup + PIN-secured profiles, basic period calendar (no fertile window), symptom tracker, "Is This Normal?" triage with infection self-check, private "Ask Her" companion, "Tell Parents/Guardian" helper, parent interface, Learn basics (incl. First Period Ready, PCOS, nutrition), reminders. English only.
+**Scope (MVP):** Signup + PIN-secured profiles, basic period calendar (no fertile window), symptom tracker, "Is This Normal?" triage with infection self-check, private "Ask Her" companion, "Tell Parents/Guardian" helper, parent interface, tiered Learn paths (First Period Ready, PCOS, nutrition), reminders. English only.
+
+**Age tiers (distinct experiences, not one 12–19 bucket):**
+
+| Tier | Ages | Guiding question | Device & independence |
+|---|---|---|---|
+| Early Puberty Girl | 12–14 | "What is happening to my body?" | Often shared/parent device; high parent involvement expected |
+| Health-Literate Teen | 15–17 | "How do I manage or recognize a condition?" | Growing independence; some privacy + connected parent |
+| Near-Adult / Tertiary | 18–19 | "How do I take ownership of my health?" | Own device, autonomy-first; parent involvement optional |
+| Parent/Guardian | Adult | "What should I watch for, and how do I approach it?" | Wants to help; often lacks accurate info and language |
+
+**Guiding principles:** (1) Educate, never diagnose — every health tool informs and directs toward a professional; all content referenced to recognised health practitioners. (2) Parent as partner, not monitor — parents get education by default; cycle data is shared only by the girl's choice, while the product actively encourages sharing so parents can spot trends early (irregular, late, or infection patterns). (3) Localize, don't translate — Nigerian foods, resources, and language, not adapted Western copy.
 
 **Key objectives:**
 1. Every user can complete log → understand → next step → who to tell.
@@ -70,8 +81,8 @@ A mobile-first PWA where the core loop is: **log → understand → next step �
 
 | Name | Description | Purpose | User benefit | Role |
 |---|---|---|---|---|
-| Signup + Login + PIN | Better Auth account + 4-digit app lock, 5-min timeout | Private access on shared phones | Siblings can't snoop | Teen, Parent |
-| Onboarding/Profile | Age band, menarche status, language | Personalize ranges + content | A 12-year-old never sees 19-year-old content | Teen |
+| Signup + Login + PIN | Get Started → I'm a girl / I'm a parent. Girl signs up via phone number (OTP code), email + password (email code), or Google (auto-verified) → tiered onboarding; plus 4-digit app PIN | Private, verified access on shared phones | Siblings can't snoop | Teen, Parent |
+| Onboarding/Profile | Tier by age (12–14 / 15–17 / 18–19); menarche status; language | Personalize content depth + independence per tier | A 12-year-old never sees 19-year-old content | Teen |
 | Calendar | Log start/end/flow; history; regularity badge; 3-day prediction | Track + spot irregularity early | Knows when period comes; sees Regular/Irregular | Teen |
 | Symptom Tracker | Pain 1–5, discharge, acne, bloating, mood, missed school | Structured observation | <60s logging; patterns visible on calendar | Teen |
 | Is This Normal? | Rules engine → band + explanation + watch-for + disclaimer | Triage worry into action | Knows: monitor / tell adult / clinic + checklist | Teen |
@@ -79,6 +90,8 @@ A mobile-first PWA where the core loop is: **log → understand → next step �
 | Tell Parents/Guardian | Shareable summary card + 2 scripts (direct/gentle) | Start the conversation | One tap instead of fear | Teen |
 | Parent Interface | Home, Guides, Shared inbox, Learn, Find Help, Settings | Equip the adult | Watches, words, clinic prep; sees shared cards only | Parent |
 | Learn Hub | 15+ short articles: periods, hygiene, myths, PCOS, nutrition, First Period Ready | Trusted education | Replaces TikTok myths | Teen, Parent |
+| Age-Tiered Learning Paths | Same topics, three depths: 12–14 basics ("what is happening"), 15–17 management ("how do I handle/recognize"), 18–19 ownership ("how do I own my health") | Right content at the right age | Never overwhelmed, never babied | Teen |
+| Referenced Education | Every health article cites recognised practitioners/sources; practitioners review hub each release | Ethical trust for a minor audience | Parents and girls trust it; tools direct to professionals, never self-diagnose | All |
 | Reminders | Period-likely + log nudges (in-app/push) | Preparation + retention | Never caught off guard | Teen |
 | Safety Suite | Discreet mode, disclaimers, 30-day chat retention, delete-my-data | Trust + compliance | Control over her data | All |
 
@@ -243,3 +256,6 @@ First Period Ready track, mood & emotions check-in (Should), nutrition mini-hub,
 
 ### Change 15: Slice 4 rules-first, both install paths, clinician outreach (28 Sep 2026)
 Triage ships with static rules text first; live AI later. Phone testing on cheap Android AND iPhone via PWA install + Android APK sideload (no public store release). No clinician contact yet — review pack to be drafted.
+
+### Change 16: Age tiers, educate-not-diagnose, parent-as-partner, localize (29 Sep 2026)
+Three girl tiers (12–14 basics, 15–17 management, 18–19 ownership) + parent tier, each with distinct content and independence. All health content referenced to recognised practitioners and built to direct toward professionals, never self-diagnose. Parents get education by default; cycle data shared only by girl's choice, with sharing actively encouraged so parents spot trends early. Content localized to Nigerian context, not translated Western copy. Onboarding: Get Started → I'm a girl / I'm a parent → girl signs up via phone OTP, email + code, or Google → tiered onboarding.
