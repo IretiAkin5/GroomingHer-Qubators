@@ -1,0 +1,26 @@
+// Learn library (Slice 7): static reviewed stubs. DB table `learn_articles`
+// is the later home once clinician review signs each piece (Phase 5).
+export interface Article { slug: string; tier: string; title: string; body: string[] }
+
+export const ARTICLES: Article[] = [
+  { slug: "first-period-ready", tier: "12-14", title: "Your first period: what actually happens", body: ["Bleeding usually lasts 3–7 days. It is womb lining leaving the body — a sign of growing up working.", "Keep a kit: 2 pads, tissue, spare pants in a pouch. Change pads every 4–6 hours.", "Tell a mum, aunt, teacher, or nurse — you don't have to manage the first one alone."] },
+  { slug: "cycle-basics", tier: "12-14", title: "How cycles work (simply)", body: ["Count from day 1 of one period to day 1 of the next. 21–45 days is common early on.", "Log every period in the Calendar — patterns only show with dates.", "Irregular first 1–2 years is expected; 3 repeats under 21 or over 45 days is worth mentioning to an adult."] },
+  { slug: "pad-hygiene", tier: "12-14", title: "Pads, pants, and staying fresh", body: ["Change pads every 4–6 hours, more on heavy days.", "Wash hands before and after changing. Wrap used pads, bin them — never flush.", "Wash underwear with soap and sun-dry when you can."] },
+  { slug: "cramps-care", tier: "12-14", title: "Cramps: what helps", body: ["Heat on the tummy + rest helps most girls.", "Gentle walking and water help too.", "Pain that stops school or hits hard every time belongs in Is This Normal?"] },
+  { slug: "body-changes", tier: "12-14", title: "Breasts, hair, hips: what's normal", body: ["Growth comes in its own order and speed — uneven is normal.", "Hair under arms and around private parts is expected; removal is your choice, never a must.", "Curves and weight shifts are maturation, not a problem."] },
+  { slug: "myths-facts", tier: "12-14", title: "Myths vs facts", body: ["Myth: period blood is dirty. Fact: it is normal body fluid.", "Myth: you can't bathe on your period. Fact: bathing helps you feel fresh.", "Myth: pain that floors you is normal. Fact: severe repeated pain deserves a check."] },
+  { slug: "managing-pain", tier: "15-17", title: "Managing period pain like a pro", body: ["Track which day pain peaks — patterns guide relief timing.", "Heat 15–20 minutes, hydration, lighter caffeine around cramps.", "If pain repeatedly stops school, log it and run Is This Normal? — endometriosis checks start from patterns like yours."] },
+  { slug: "discharge-guide", tier: "15-17", title: "Discharge: the honest guide", body: ["Clear/white and mild is typical and healthy.", "Itching, burning, bad smell, or yellow/green — especially with fever — are clinic signs.", "No douching, no scented soaps inside; cotton pants and dryness protect you."] },
+  { slug: "infection-self-check", tier: "15-17", title: "Infection awareness + self-check", body: ["Know your normal first: colour, smell, comfort across the month.", "Flag combo: odour + itch/burn, or colour change + fever.", "Any flag → professional band in Is This Normal? Bring dates and notes to the clinic."] },
+  { slug: "pcos-hub", tier: "15-17", title: "PCOS awareness hub", body: ["PCOS signs can include very irregular cycles, persistent acne, unusual hair growth, weight shifts.", "Only a clinician can diagnose — usually with history, exam, and tests.", "Your job: log honestly for 3 months, then bring logs to a trusted adult and clinic."] },
+  { slug: "endo-basics", tier: "15-17", title: "Endometriosis basics", body: [" clue patterns: severe pain that stops life, pain beyond bleeding days, heavy flow with clots.", "Not provable at home — but patterns like these are exactly what clinics need to hear.", "Log pain scores and missed days; they become your evidence."] },
+  { slug: "mood-school", tier: "15-17", title: "Mood, stress, and school balance", body: ["Hormone shifts + pressure swing moods; sleep and talking help most.", "Low mood lasting 2+ weeks or stopping daily life → tell a trusted adult promptly.", "Plan heavy study around predicted period days, not through worst pain."] },
+  { slug: "own-your-health", tier: "18-19", title: "Owning your health at 18–19", body: ["You set the agenda now: keep 3-month logs, know your cycle length range, list your questions before clinic visits.", "Parent involvement is your choice — sharing builds support, not obligation.", "Know red flags cold: soak <2h, bleed >7d, fainting, fever + discharge."] },
+  { slug: "nutrition-local", tier: "18-19", title: "Eating for your cycle (local foods)", body: ["Iron replacers: beans, ugu/vegetable soups, meat or fish when available; pair with vitamin C (orange, pineapple).", "Water over sugary drinks on heavy days; less excess caffeine around cramps.", "Skipping meals worsens fatigue and mood — eat regularly, even small."] },
+  { slug: "clinic-ready", tier: "18-19", title: "How to get the most from a clinic visit", body: ["Bring: last 3 dates, flow levels, pain scores, symptom notes, questions list.", "Say plainly what worries you most first — then details.", "You may bring anyone you trust; ask the nurse to explain words you don't know."] },
+];
+
+export function forTier(tier: string): Article[] {
+  if (tier === "all") return ARTICLES;
+  return ARTICLES.filter((a) => a.tier === tier || a.tier === "12-14");
+}
