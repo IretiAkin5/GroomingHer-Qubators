@@ -257,5 +257,7 @@ First Period Ready track, mood & emotions check-in (Should), nutrition mini-hub,
 ### Change 15: Slice 4 rules-first, both install paths, clinician outreach (28 Sep 2026)
 Triage ships with static rules text first; live AI later. Phone testing on cheap Android AND iPhone via PWA install + Android APK sideload (no public store release). No clinician contact yet — review pack to be drafted.
 
-### Change 16: Age tiers, educate-not-diagnose, parent-as-partner, localize (29 Sep 2026)
-Three girl tiers (12–14 basics, 15–17 management, 18–19 ownership) + parent tier, each with distinct content and independence. All health content referenced to recognised practitioners and built to direct toward professionals, never self-diagnose. Parents get education by default; cycle data shared only by girl's choice, with sharing actively encouraged so parents spot trends early. Content localized to Nigerian context, not translated Western copy. Onboarding: Get Started → I'm a girl / I'm a parent → girl signs up via phone OTP, email + code, or Google → tiered onboarding.
+### Change 16: Age tiers, educate-not-diagnose, parent-as-partner, localize (29 Sep 2026)Three girl tiers (12–14 basics, 15–17 management, 18–19 ownership) + parent tier, each with distinct content and independence. All health content referenced to recognised practitioners and built to direct toward professionals, never self-diagnose. Parents get education by default; cycle data shared only by girl's choice, with sharing actively encouraged so parents spot trends early. Content localized to Nigerian context, not translated Western copy. Onboarding: Get Started → I'm a girl / I'm a parent → girl signs up via phone OTP, email + code, or Google → tiered onboarding.
+
+### Change 17: PIN-first auth, phone/Google parked (29 Sep 2026)
+Start with PIN lock only (set at onboarding + unlock gate + timeout). Phone OTP and Google signup held for later — specced, not built.
