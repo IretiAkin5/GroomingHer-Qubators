@@ -33,6 +33,14 @@ function daysBetween(a: string, b: string) {
   return Math.round((new Date(b).getTime() - new Date(a).getTime()) / 86400000);
 }
 
+export async function GET(req: Request) {
+  const profileId = new URL(req.url).searchParams.get("profileId") ?? "";
+  if (!profileId) return NextResponse.json({ error: "Missing profile." }, { status: 400 });
+  const rows = await db.select().from(assessments).where(eq(assessments.profileId, profileId)).orderBy(desc(assessments.createdAt)).limit(1);
+  if (!rows[0]) return NextResponse.json({ assessment: null });
+  return NextResponse.json({ assessment: rows[0] });
+}
+
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   const profileId = String(body?.profileId ?? "");
