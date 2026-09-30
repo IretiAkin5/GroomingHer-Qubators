@@ -6,6 +6,7 @@ const links = [
   ["Ask Her", "/ask", "Slice 5"],
   ["Tell My Parent", "/tell", "Slice 6"],
   ["Learn", "/learn", "Slice 7"],
+  ["Reminders", "/reminders", "Must-lite"],
   ["Parent Space", "/parent", "Slice 8"],
 ];
 
