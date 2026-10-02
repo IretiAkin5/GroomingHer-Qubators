@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 const ACTIONS = [
   ["📅", "Log period", "/calendar"],
@@ -28,10 +29,20 @@ export default function Home() {
     textDecoration: "none", color: "#3F2A33", fontWeight: 800, fontSize: 14, textAlign: "center",
   };
 
+  async function logout() {
+    try { await authClient.signOut(); } catch { /* local-only account */ }
+    ["gh_profile", "gh_role", "gh_age", "gh_first", "gh_last", "gh_contact", "gh_method"].forEach((k) => localStorage.removeItem(k));
+    sessionStorage.clear();
+    window.location.href = "/";
+  }
+
   return (
     <div>
       <div style={{ background: "#7C2D52", color: "#fff", borderRadius: 20, padding: 20 }}>
-        <h1 style={{ fontSize: 24, margin: 0 }}>GroomingHer 🌸</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h1 style={{ fontSize: 24, margin: 0 }}>GroomingHer 🌸</h1>
+          {name && <button onClick={logout} style={{ background: "transparent", color: "#FBDCE6", border: "2px solid #FBDCE6", borderRadius: 10, padding: "6px 12px", fontWeight: 800, cursor: "pointer" }}>Log out</button>}
+        </div>
         <p style={{ margin: "6px 0 0", color: "#FBDCE6" }}>
           {name ? `${name} — how is your body today?` : "Your private period companion. Start with onboarding 👇"}
         </p>
