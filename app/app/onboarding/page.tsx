@@ -1,11 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
 const steps = ["Account", "Age", "Period", "Language", "PIN"] as const;
 
 export default function Onboarding() {
   const [step, setStep] = useState(0);
+  useEffect(() => {
+    if (localStorage.getItem("gh_contact") || localStorage.getItem("gh_first")) setStep(1);
+  }, []);
   const [role, setRole] = useState("girl");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -44,7 +47,7 @@ export default function Onboarding() {
     setMsg("");
     const res = await fetch("/api/profile", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ageBand, menarcheStatus: menarche, language, pin }),
+      body: JSON.stringify({ ageBand, menarcheStatus: menarche, language, pin, firstName: localStorage.getItem("gh_first") ?? "", lastName: localStorage.getItem("gh_last") ?? "", email: localStorage.getItem("gh_method") === "email" ? localStorage.getItem("gh_contact") ?? "" : "", phone: localStorage.getItem("gh_method") === "phone" ? localStorage.getItem("gh_contact") ?? "" : "" }),
     });
     const data = await res.json();
     if (!res.ok) { setMsg(data.error ?? "Could not save. Try again."); return; }

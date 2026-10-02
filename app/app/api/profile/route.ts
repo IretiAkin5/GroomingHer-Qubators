@@ -13,6 +13,10 @@ export async function POST(req: Request) {
   const menarcheStatus = String(body?.menarcheStatus ?? "");
   const language = String(body?.language ?? "en");
   const pin = String(body?.pin ?? "");
+  const firstName = String(body?.firstName ?? "").slice(0, 60);
+  const lastName = String(body?.lastName ?? "").slice(0, 60);
+  const email = String(body?.email ?? "").slice(0, 120);
+  const phone = String(body?.phone ?? "").slice(0, 20);
 
   if (!AGES.includes(ageBand)) return NextResponse.json({ error: "Pick an age band." }, { status: 400 });
   if (!["yes", "no"].includes(menarcheStatus)) return NextResponse.json({ error: "Say whether your period started." }, { status: 400 });
@@ -21,6 +25,6 @@ export async function POST(req: Request) {
   const salt = randomBytes(16).toString("hex");
   const pinHash = `${salt}:${scryptSync(pin, salt, 32).toString("hex")}`;
 
-  const [row] = await db.insert(profiles).values({ ageBand, menarcheStatus, language, pinHash }).returning({ id: profiles.id });
+  const [row] = await db.insert(profiles).values({ ageBand, menarcheStatus, language, pinHash, firstName: firstName || null, lastName: lastName || null, email: email || null, phone: phone || null }).returning({ id: profiles.id });
   return NextResponse.json({ ok: true, profileId: row.id });
 }

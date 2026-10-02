@@ -53,6 +53,10 @@ export const verification = pgTable("verification", {
 // Teen profile (one row per app user; parent access goes via shares only)
 export const profiles = pgTable("profiles", {
   id: uuid("id").defaultRandom().primaryKey(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  email: text("email"),
+  phone: text("phone"),
   ageBand: text("age_band").notNull(), // 12-14 | 15-17 | 18-19
   menarcheStatus: text("menarche_status").notNull(), // yes | no
   language: text("language").notNull().default("en"),
