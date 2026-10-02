@@ -13,12 +13,14 @@ const ACTIONS = [
 export default function Home() {
   const [name, setName] = useState("");
   const [alerts, setAlerts] = useState(0);
+  const [needPin, setNeedPin] = useState(false);
 
   useEffect(() => {
     const p = localStorage.getItem("gh_profile") ?? "";
     if (!p) return;
     setName("welcome back");
     fetch(`/api/reminders?profileId=${p}`).then((r) => r.json()).then((d) => setAlerts((d.reminders ?? []).length)).catch(() => {});
+    fetch(`/api/profile?profileId=${p}`).then((r) => r.json()).then((d) => { if (d.hasPin === false) setNeedPin(true); }).catch(() => {});
   }, []);
 
   const btn: React.CSSProperties = {
@@ -35,6 +37,7 @@ export default function Home() {
         </p>
         {!name && <a href="/onboarding" style={{ display: "inline-block", marginTop: 12, background: "#fff", color: "#7C2D52", fontWeight: 800, padding: "12px 22px", borderRadius: 12, textDecoration: "none" }}>Get started</a>}
         {alerts > 0 && <p style={{ margin: "10px 0 0" }}><a href="/reminders" style={{ color: "#fff", fontWeight: 800 }}>🔔 {alerts} reminder{alerts > 1 ? "s" : ""} for you →</a></p>}
+        {needPin && <p style={{ margin: "10px 0 0" }}><a href="/pin" style={{ background: "#E85D8A", color: "#fff", fontWeight: 800, padding: "8px 14px", borderRadius: 10, textDecoration: "none" }}>🔒 Set your PIN to lock this phone →</a></p>}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginTop: 14 }}>
         {ACTIONS.map(([icon, label, href]) => (

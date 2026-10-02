@@ -1,91 +1,80 @@
 "use client";
-import { useEffect, useState } from "react";
-import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
 
-const steps = ["Account", "Age", "Period", "Language", "PIN"] as const;
+function bandFor(age: number) {
+  if (age <= 14) return "12-14";
+  if (age <= 17) return "15-17";
+  return "18-19";
+}
 
 export default function Onboarding() {
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    if (localStorage.getItem("gh_contact") || localStorage.getItem("gh_first")) setStep(1);
-  }, []);
-  const [role, setRole] = useState("girl");
-  const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
-  const [verified, setVerified] = useState("");
-  const [ageBand, setAgeBand] = useState("15-17");
+  const [role, setRole] = useState<"girl" | "parent" | null>(null);
+  const [age, setAge] = useState("");
   const [menarche, setMenarche] = useState("yes");
-  const [language, setLanguage] = useState("en");
-  const [pin, setPin] = useState("");
   const [msg, setMsg] = useState("");
-  const [done, setDone] = useState("");
 
   const chip = (on: boolean): React.CSSProperties => ({
-    padding: "12px 18px", borderRadius: 999, minHeight: 48, margin: 4, cursor: "pointer",
+    padding: "14px 20px", borderRadius: 14, minHeight: 52, margin: 6, cursor: "pointer", fontSize: 17,
     border: on ? "2px solid #E85D8A" : "2px solid #F1D9E0",
-    background: on ? "#FBDCE6" : "#fff", fontWeight: on ? 800 : 400, fontSize: 16,
+    background: on ? "#FBDCE6" : "#fff", fontWeight: on ? 800 : 400, width: "100%",
   });
 
-  async function google() {
+  async function goHome() {
     setMsg("");
-    await authClient.signIn.social({ provider: "google", callbackURL: "/onboarding" });
-  }
-  async function sendCode() {
-    setMsg("");
-    const r = await authClient.$fetch("/phone-number/send-otp", { method: "POST", body: { phoneNumber: phone } }) as { error?: { message?: string } };
-    if (r?.error) { setMsg("Could not send code. Check the number."); return; }
-    setMsg("Code sent — check your SMS (or server console in test mode).");
-  }
-  async function verifyCode() {
-    setMsg("");
-    const r = await authClient.$fetch("/phone-number/verify", { method: "POST", body: { phoneNumber: phone, code } }) as { error?: { message?: string } };
-    if (r?.error) { setMsg("Wrong or expired code."); return; }
-    setVerified(phone);
-  }
-
-  async function finish() {
-    setMsg("");
+    const n = Number(age);
+    if (!Number.isInteger(n) || n < 8 || n > 25) { setMsg("Type your age in numbers (e.g. 14)."); return; }
     const res = await fetch("/api/profile", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ageBand, menarcheStatus: menarche, language, pin, firstName: localStorage.getItem("gh_first") ?? "", lastName: localStorage.getItem("gh_last") ?? "", email: localStorage.getItem("gh_method") === "email" ? localStorage.getItem("gh_contact") ?? "" : "", phone: localStorage.getItem("gh_method") === "phone" ? localStorage.getItem("gh_contact") ?? "" : "" }),
+      body: JSON.stringify({
+        ageBand: bandFor(n), menarcheStatus: menarche, language: "en", pin: "",
+        firstName: localStorage.getItem("gh_first") ?? "", lastName: localStorage.getItem("gh_last") ?? "",
+        email: localStorage.getItem("gh_method") === "email" ? localStorage.getItem("gh_contact") ?? "" : "",
+        phone: localStorage.getItem("gh_method") === "phone" ? localStorage.getItem("gh_contact") ?? "" : "",
+      }),
     });
     const data = await res.json();
-    if (!res.ok) { setMsg(data.error ?? "Could not save. Try again."); return; }
+    if (!res.ok) { setMsg(data.error ?? "Could not save."); return; }
     localStorage.setItem("gh_profile", data.profileId);
-    localStorage.setItem("gh_role", role);
-    setDone(data.profileId);
+    localStorage.setItem("gh_role", "girl");
+    localStorage.setItem("gh_age", String(n));
+    window.location.href = "/";
   }
 
-  if (done) return <div><h1 style={{ fontSize: 24 }}>You are in 🎉</h1><p>Your private space is ready. Nothing is shared without your say-so.</p><a href="/">Go home</a></div>;
+  function goParent() {
+    localStorage.setItem("gh_role", "parent");
+    window.location.href = "/parent";
+  }
+
+  if (!role) return (
+    <div style={{ textAlign: "center", paddingTop: 30 }}>
+      <h1 style={{ fontSize: 26 }}>Who is joining? 💗</h1>
+      <button onClick={() => setRole("girl")} style={chip(false)}>👧 I am a Girl</button>
+      <button onClick={() => setRole("parent")} style={chip(false)}>👪 I am a Parent</button>
+    </div>
+  );
+
+  if (role === "parent") return (
+    <div style={{ textAlign: "center", paddingTop: 30 }}>
+      <h1 style={{ fontSize: 24 }}>Welcome, Parent 🤝</h1>
+      <p style={{ color: "#8a6b76" }}>Guides, alerts, and support — you see only what your daughter shares.</p>
+      <button onClick={goParent} style={{ padding: "14px 32px", borderRadius: 14, background: "#7C2D52", color: "#fff", fontWeight: 800, fontSize: 17, border: "none", cursor: "pointer" }}>Enter Parent Space</button>
+    </div>
+  );
 
   return (
     <div>
-      <p style={{ color: "#8a6b76" }}>Step {step + 1} of 5 — {steps[step]}</p>
-      {step === 0 && <div>
-        <h1 style={{ fontSize: 24 }}>Get Started</h1>
-        <div>
-          <button style={chip(role === "girl")} onClick={() => setRole("girl")}>I'm a girl</button>
-          <button style={chip(role === "parent")} onClick={() => setRole("parent")}>I'm a parent</button>
-        </div>
-        <h3>Sign up options</h3>
-        <button onClick={google} style={{ display: "block", width: "100%", padding: 12, borderRadius: 12, margin: "6px 0", border: "2px solid #F1D9E0", background: "#fff", fontWeight: 800 }}>Continue with Google</button>
-        <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Phone e.g. +2348012345678" style={{ width: "100%", padding: 12, borderRadius: 12, border: "2px solid #F1D9E0", margin: "6px 0", fontSize: 16 }} />
-        <button onClick={sendCode} style={{ padding: 12, borderRadius: 12, background: "#fff", border: "2px solid #7C2D52", color: "#7C2D52", fontWeight: 800, marginRight: 8 }}>Send code</button>
-        <input value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder="6-digit code" style={{ width: 140, padding: 12, borderRadius: 12, border: "2px solid #F1D9E0", fontSize: 16 }} />
-        <button onClick={verifyCode} style={{ padding: 12, borderRadius: 12, background: "#7C2D52", color: "#fff", fontWeight: 800, border: "none", marginLeft: 8 }}>Verify</button>
-        {verified && <p style={{ color: "#15803D" }}>✓ {verified} verified. You can continue — or skip and use PIN only.</p>}
-      </div>}
-      {step === 1 && <div><h1 style={{ fontSize: 24 }}>How old are you?</h1>{[["12-14", "12–14 · just starting"], ["15-17", "15–17 · figuring it out"], ["18-19", "18–19 · owning it"]].map(([v, l]) => <button key={v} style={chip(ageBand === v)} onClick={() => setAgeBand(v)}>{l}</button>)}</div>}
-      {step === 2 && <div><h1 style={{ fontSize: 24 }}>Has your period started?</h1>{[["yes", "Yes"], ["no", "Not yet"]].map(([v, l]) => <button key={v} style={chip(menarche === v)} onClick={() => setMenarche(v)}>{l}</button>)}</div>}
-      {step === 3 && <div><h1 style={{ fontSize: 24 }}>Language?</h1>{[["en", "English"]].map(([v, l]) => <button key={v} style={chip(language === v)} onClick={() => setLanguage(v)}>{l}</button>)}</div>}
-      {step === 4 && <div><h1 style={{ fontSize: 24 }}>Set a 4-digit PIN</h1><p style={{ color: "#8a6b76" }}>Keeps others out on shared phones.</p><input value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))} inputMode="numeric" placeholder="••••" style={{ fontSize: 24, letterSpacing: 8, padding: 12, borderRadius: 14, border: "2px solid #7C2D52", width: "100%" }} /></div>}
-      {msg && <p style={{ color: msg.startsWith("Code sent") || msg.startsWith("✓") ? "#15803D" : "#DC2626" }}>{msg}</p>}
-      <div style={{ marginTop: 16 }}>
-        {step > 0 && <button onClick={() => setStep(step - 1)} style={{ ...chip(false), marginRight: 8 }}>Back</button>}
-        {step < 4
-          ? <button onClick={() => setStep(step + 1)} style={{ padding: "12px 24px", borderRadius: 14, minHeight: 48, background: "#7C2D52", color: "#fff", fontWeight: 800, fontSize: 16, border: "none", cursor: "pointer" }}>{step === 0 ? "Continue (skip signup for now)" : "Next"}</button>
-          : <button onClick={finish} style={{ padding: "12px 24px", borderRadius: 14, minHeight: 48, background: "#E85D8A", color: "#fff", fontWeight: 800, fontSize: 16, border: "none", cursor: "pointer" }}>Finish</button>}
+      <h1 style={{ fontSize: 24 }}>How old are you? 🎂</h1>
+      <p style={{ color: "#8a6b76" }}>Type your age — your content fits your stage.</p>
+      <input value={age} onChange={(e) => setAge(e.target.value.replace(/\D/g, "").slice(0, 2))} inputMode="numeric" placeholder="e.g. 14" style={{ fontSize: 28, padding: 14, borderRadius: 14, border: "2px solid #7C2D52", width: "100%", textAlign: "center" }} />
+      <h3>Has your period started?</h3>
+      <div style={{ display: "flex", gap: 8 }}>
+        {[["yes", "Yes"], ["no", "Not yet"]].map(([v, l]) => (
+          <button key={v} onClick={() => setMenarche(v)} style={{ flex: 1, padding: 12, borderRadius: 12, border: menarche === v ? "2px solid #E85D8A" : "2px solid #F1D9E0", background: menarche === v ? "#FBDCE6" : "#fff", fontWeight: 800 }}>{l}</button>
+        ))}
       </div>
+      {age && Number(age) >= 8 && <p style={{ color: "#15803D" }}>You'll get the {bandFor(Number(age))} experience: {Number(age) <= 14 ? "simple basics" : Number(age) <= 17 ? "managing + recognizing" : "owning your health"}.</p>}
+      {msg && <p style={{ color: "#DC2626" }}>{msg}</p>}
+      <button onClick={goHome} style={{ width: "100%", padding: 14, borderRadius: 14, background: "#E85D8A", color: "#fff", fontWeight: 800, fontSize: 17, border: "none", cursor: "pointer", marginTop: 12 }}>Take me home →</button>
     </div>
   );
 }

@@ -10,9 +10,13 @@ export default function LockGate({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const profile = localStorage.getItem("gh_profile");
-    const unlocked = sessionStorage.getItem("gh_unlocked");
-    const last = Number(sessionStorage.getItem("gh_last") ?? 0);
-    if (profile && (unlocked !== "1" || Date.now() - last > 5 * 60 * 1000)) setLocked(true);
+    if (!profile) return;
+    fetch(`/api/profile?profileId=${profile}`).then((r) => r.json()).then((d) => {
+      if (d.hasPin === false) return; // no PIN yet → home nudges to /pin
+      const unlocked = sessionStorage.getItem("gh_unlocked");
+      const last = Number(sessionStorage.getItem("gh_last") ?? 0);
+      if (unlocked !== "1" || Date.now() - last > 5 * 60 * 1000) setLocked(true);
+    }).catch(() => {});
     const stamp = () => sessionStorage.setItem("gh_last", String(Date.now()));
     const onHide = () => { stamp(); };
     document.addEventListener("visibilitychange", onHide);
