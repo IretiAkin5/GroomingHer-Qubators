@@ -1,36 +1,14 @@
-# Phase 2 — User Flows (GroomingHer MVP)
+# User journeys — October 2026 rebuild
 
-Notation: [screen] → (action) → [screen]. Components in `components.md`, tokens in `tokens.json`.
+See [PRD 3.1](../GroomingHer_PRD.md) for governing acceptance criteria.
 
-## F1 — Onboarding (first run)
-[Welcome] → (Start) → [Age band: 12–14 / 15–17 / 18–19] → [Period started? Yes/No] →
-- No → [What to expect + Learn teaser] → [Language] → [Set PIN] → [Home/empty]
-- Yes → [Last period start? + flow] → [Language] → [Set PIN] → [Home]
-- Exit: `profiles` row + `onboarding_completed` event. Skip allowed → defaults (15–17, English).
+- Visitor: Home → role solution → public resources → Get Started. Basic samples open without login.
+- Girl demo: role choice → fictional invitation → age/preference examples → separately simulated permission and agreement → correct fictional connection → Girl home. Optional preferences can be skipped. Pending permission, outside age and wrong connection have clear public-resource alternatives.
+- Girl learning: six-week lessons → sample lesson → distinct reflection → optional fictional check → learning progress. Health content is awaiting professional review.
+- Girl diary: optional explanation → select fictional sample → save/cancel → history → edit/delete with confirmation. No real health text, predictions or automatic interpretation.
+- Girl sharing: fictional verified recipient → choose sample wording → exact preview → explicit confirmation/cancel → simulated result. No diary or AI attachment; nothing sent to a server.
+- Parent: guides → chosen message only → school programme → support. No diary or private questions route.
+- School: interest preview remains pending → fictional approved-staff onboarding → programme/readiness → sessions/materials → participation/attendance → combined feedback. No girl health dashboard.
+- Exit: clear demo state → public website. Changing role labels or visiting another role URL does not unlock that space.
 
-## F2 — Log period (Calendar)
-[Home] → (Log period / Calendar tab) → [Calendar month] → (tap day → Start/End + flow chips) → (Save) → [Calendar updated + regularity badge if ≥2 cycles]
-- Empty state: "No periods yet — add your first." Error: retry banner. Offline: saved locally, "will sync" note.
-
-## F3 — Log symptoms → Triage
-[Home/Calendar] → (Log symptoms) → [Symptom chips: pain 1–5 + location, flow, discharge, acne, bloating, mood, missed school] → (Save <60s) → [Prompt: "Check — Is This Normal?"] → (Yes) → F4; (Not now) → [Calendar]
-
-## F4 — Is This Normal? result
-[Computing: skeleton] → [Result card: band + explanation + watch-for + disclaimer] →
-- monitor → [Self-care + "remind me to re-check in X days"] → [Home]
-- adult → [Tell Parent helper (F6)] + [Learn links]
-- professional → [Clinic checklist (3 dates, flow, pain) + urgent wording if R6] + [Tell Parent helper (F6)]
-
-## F5 — Ask Her
-[Ask tab] → [Chat + suggested starters] → (send) → [Streaming answer + disclaimer footer + follow-up chips + "Check Is This Normal?" handoff if flags]
-- Empty: 3 starter questions by age band. Delete chat available in header.
-
-## F6 — Tell My Parent
-[Result/share entry] → [Summary card preview + script A (direct) / B (gentle)] → (Copy / Show on screen / Send to Parent view) → [Shared ✓ + consent log] → [Home]
-- Parent side: card appears under Shared tab only (see parent-preview.html).
-
-## F7 — Parent view (separate entry, own PIN optional)
-[Parent Home] → tabs: Guides / Shared / Learn / Help / Settings (per PRD §9). No route reaches teen raw data — enforced by API tests.
-
-## Global
-Discreet toggle (header) on all teen screens. Disclaimers on F1-end, F4, F5, parent home. Offline: F2/F3 + Learn work, sync later; F4/F5 show "needs connection" with queued-input option for F4.
+Live invitations, permissions, recovery, content approvals and server authorisation are later stages, not simulated approvals of actual participants.

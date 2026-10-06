@@ -30,3 +30,8 @@ build/
 app/node_modules/
 app/.next/
 app/out/
+
+# Local browser checks and generated TypeScript cache
+app/test-results/
+app/playwright-report/
+app/tsconfig.tsbuildinfo

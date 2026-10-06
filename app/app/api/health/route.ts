@@ -1,4 +1,9 @@
 import { NextResponse } from "next/server";
-export async function GET() {
-  return NextResponse.json({ ok: true, app: "groomingher", phase: 3 });
+export function GET() {
+  return NextResponse.json({
+    ok: true,
+    app: "groomingher",
+    mode: "fictional-demo",
+    healthCollection: false,
+  });
 }

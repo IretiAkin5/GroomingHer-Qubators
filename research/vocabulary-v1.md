@@ -1,16 +1,7 @@
-# Phase 0 — Vocabulary List v1 (draft, to validate in interviews)
+# Language and reflection guide
 
-Use the left column in-app. Avoid the right column unless the user types it first (then mirror gently + teach the plain term).
+Audience: Nigerian girls aged 13–15, including those who have not started menstruating. Use plain, respectful English with accurate terms explained simply. Questions are welcome; no shame, blame or assumptions about sexual activity.
 
-| Use in app | Avoid / mirror-only |
-|---|---|
-| period, monthly flow | — |
-| cramps / period pain (1–5 scale) | — |
-| heavy / light flow; soaking a pad in under 2 hours | — |
-| discharge (clear/white normal talk; itching, bad smell, green/yellow as flags) | explicit slang |
-| missed school / stopped play | — |
-| trusted adult (mum, aunt, teacher, nurse) | — |
-| clinic / healthcare professional | — |
-| track, pattern, regular / irregular | fertile, ovulation (OUT of scope) |
+Use “optional private diary”, “chosen message”, “review the exact wording”, “confirm sending”, “trusted/safe adult”, “qualified healthcare professional” and “sample lesson awaiting professional review”. Do not call the product a symptom checker or imply a green health status, diagnosis, fertility prediction or automatic alert.
 
-Tone rules: short sentences, age-12 reading level, no shame words ("dirty", "clean"), no diagnosis labels ("you have PCOS"). Always end guidance with a next step + who to talk to.
+Label Christian reflections separately. Menstruation, discharge and illness are not impurity, punishment or spiritual failure. Prayer accompanies practical support and healthcare; assistance has no religious test. Functional wording must be complete, with marketing placeholders confined to landing copy if needed.

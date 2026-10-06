@@ -1,0 +1,5 @@
+# Proposed build configuration only; no deployment/account access has been verified.
+[build]
+  base = "app"
+  command = "npm run build"
+  publish = ".next"

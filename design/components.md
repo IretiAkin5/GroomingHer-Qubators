@@ -1,21 +1,7 @@
-# GroomingHer Design System (v0.1)
+# Reusable GroomingHer design elements
 
-Principles: calm, private, non-sexualized, age-12 readable, high contrast, large touch targets, low-data, discreet mode for shared phones.
+The current source is [GroomingHer Design Plan](../GroomingHer_Design_Plan.md). Proposed palette: plum #642C58, warm off-white #FFF9F4, lavender #F0E8F5, peach #FCE5DC, charcoal #25222A and teal #195D59. The founder can review these in the running preview.
 
-Tokens: see `tokens.json`. Preview: open `preview.html` in a browser.
+Components include accessible public navigation with a button-operated Solutions dropdown, role cards, article cards, review labels, distinct faith-reflection panels, short onboarding steps, permission/connection summaries, fictional diary selectors, exact message previews, support panels, programme schedules and readiness tasks. Visible focus, labelled inputs, text status labels and mobile layouts are required. No diagnosis card, health score or cycle prediction belongs to this scope.
 
-## Components
-- **Button:** primary (plum), accent (rose), outline, ghost. Min 48px height, 16px bold.
-- **Input:** 2px border, 14px radius, 48px min height, helper text below.
-- **PIN pad:** 4 boxes, plum border, large digits, session timeout.
-- **Calendar cell:** solid rose = period day, light rose = predicted range, ring = today. No fertile window anywhere.
-- **Symptom chip:** pill toggle, rose-light when on. One-tap logging.
-- **Card:** white, 20px radius, 1px warm border. Used for triage results, summaries, Learn.
-- **Disclaimer banner:** info (teal) / warn (amber) / danger (red). Every AI output ends with one.
-- **Bottom nav:** Home, Calendar, Ask Her, Learn, Parent. Icon + label, active = plum bold.
-
-## States
-Empty (friendly prompt) / Loading (skeleton, no spinners) / Error (retry) / Offline (log + Learn still work).
-
-## Accessibility
-WCAG AA, 16px base, plain language, icon + text always paired, discreet palette toggle.
+Body text uses the system sans-serif stack; editorial headings use Georgia. Illustrations are original SVG learning scenes, not medical diagrams. Print views remain readable in black and white and identify unreviewed sample versions.

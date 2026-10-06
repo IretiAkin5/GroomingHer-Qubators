@@ -1,86 +1,141 @@
 # GroomingHer
 
-GroomingHer is a trusted, age-appropriate, and culturally relevant health companion for adolescent girls aged 12–19 in Nigeria navigating puberty, menstruation, body changes, and early reproductive health.
+> **Current build:** public website and fictional Girl, Parent and School demonstrations. No live enrolment or real children’s health collection. [Run, preview and check the stages](docs/BUILD_STAGES.md). The founder product brief below describes the intended service.
 
-## Who It's For
+**Christian teenage health education for Nigerian girls and the adults who support them.**
 
-- **Primary:** Adolescent girls (12–19) with questions about periods, body changes, and reproductive health who may not feel comfortable asking a parent, teacher, or healthcare professional.
-- **Secondary:** Parents and guardians who need reliable guidance to support their daughters.
+GroomingHer is a planned web app that helps girls understand their changing bodies, ask questions with confidence and know when to seek support. Health education leads the experience, with Bible verses and reflections reinforcing dignity, compassion, healthy boundaries and care for the body.
 
-## Problem
+The first audience is girls aged **13–15**, including girls who have not started menstruating. Parents and guardians have a separate, connected learning space. Authorised school staff have tools for delivering guided sessions. A mobile app and learning paths for older teenagers are longer-term plans.
 
-Adolescent girls often experience first periods, irregular cycles, period pain, acne, discharge, and early signs of conditions like PCOS, endometriosis, and common infections — without trusted guidance.
+## Product status
 
-They may rely on friends, social media, or unreliable online sources, leaving them confused, worried, and unsupported. Parents often want to help but don't know what to watch for or how to start the conversation.
+GroomingHer is in planning and discovery. The first-version features have been approved by the founder; the school, healthcare reviewer, delivery partners and funding have not yet been secured. This README describes the intended product, not a live or clinically approved service.
 
-## Core Journey
+**Founder and product owner:** Ireti Ogunmola.
 
-> I have a question → I ask GroomingHer → I understand what may be happening → I know what to do next → I know who to talk to if I need help.
+## Product brief
 
-## Planned Features (v0.1 vision)
+### User
 
-1. **Personalized onboarding** — experience tailored to age and developmental stage.
-2. **Learn hub** — puberty and menstrual health education.
-3. **Period tracking** — track and better understand cycles.
-4. **Ask Her** — private AI companion for body questions.
-5. **Is This Normal?** — educational guidance on whether to monitor or speak with a trusted adult / healthcare professional.
-6. **Conversation starters** — help starting a conversation with a parent or trusted adult.
+Nigerian girls aged 13–15 who need clear, respectful information about puberty and reproductive health. Supporting users are parents/guardians and authorised staff at participating schools. Girls can participate through guided sessions and printed materials even without their own phone.
 
-> Note: GroomingHer provides educational information only, not medical diagnosis or treatment.
+### Problem
 
-## Project Status
+Girls may have questions about periods, discharge, hygiene, pain and body changes but lack reliable explanations or feel embarrassed asking adults. Parents may need guidance on responding calmly. Schools need reviewed learning materials and a clear route for supporting concerns. These are working assumptions to validate with girls, parents and staff.
 
-Slices 1–3 live (onboarding + PIN, calendar, symptoms). Slice 4 (Is This Normal?) is next. Full plan in `PRD.md`, roadmap in `PRD.md` Appendix D.
+### Main journey
 
-## Roadmap
+A participating school introduces GroomingHer → families receive programme information → the required guardian permission and the girl’s own agreement are completed → girls attend guided lessons and optionally revisit them online → girls may keep a private diary → a girl chooses whether to share a concern with a trusted adult → appropriate human support is available.
 
-| When | What | Status |
-|---|---|---|
-| Done | Phases 0–3: research, stories, design, scaffold, DB running | ✅ |
-| Done | Slices 1–3: onboarding, calendar, symptoms | ✅ |
-| **Now** | Slice 4: Is This Normal? (rules + static answers) | ▶️ |
-| Next | Slices 5–6: Ask Her, Tell Parents/Guardian | Planned |
-| After | Slices 7–8: Learn hub, Parent interface | Planned |
-| Then | Content review → testing → school launch | Planned |
+Public learning resources can be explored without creating an account.
 
-## Repo Contents
+## Purpose and promise
 
-- `README.md` — this file (status + roadmap)
-- `PRD.md` — full product doc: 10-section template, phased plan, roadmap (Appendix D), decisions (Appendix C)
-- `design.html` — visual design system (teen + parent, no gradients)
-- `index.html` — static landing page
-- `app/` — working Next.js app (Slices 1–3)
+**Understand your body. Ask questions with confidence. Get support when you need it.**
 
-## Getting Started
+GroomingHer aims to improve understanding, confidence and help-seeking. Its wider ambition is to reduce missed or dismissed health concerns through better awareness. The first version does not identify diseases from symptom entries or promise prevention of future reproductive conditions.
 
-Clone the repo and read the product brief:
+## Christian foundation
+
+GroomingHer is clearly Christian throughout, while health education remains its main purpose. Reflections encourage girls to recognise their worth and seek support without shame. Medical explanations are evidence-based and professionally reviewed; faith reflections are clearly distinguished from them.
+
+Menstruation, discharge and illness are not presented as impurity, punishment or spiritual failure. Prayer accompanies practical action and healthcare. Assistance is not conditional on a girl’s religious commitment.
+
+## First-version experiences
+
+| Space | Main features |
+| --- | --- |
+| Public website | Home, About, Solutions for Girls/Parents/Schools, How it works, Learning Resources, Contact Us, Get Started and Log In; safety information and FAQs. |
+| Girl | Six-week lessons, reviewed resources, AI lesson explanations, fictional learning checks, optional diary, diary history, chosen messages, support contacts and learning progress. |
+| Parent/guardian | Reviewed guides, conversation starters, Christian reflections, daughter-chosen messages, school programme, support, permissions and settings. |
+| School | Session planning, facilitator guides, printable materials, invitations, participation/attendance, support contacts, anonymous-question guidance and combined feedback. |
+| Management | Content drafting and approval, school/programme coordination, content and AI reports, combined results and privacy requests. |
+
+The website starts with this navbar: **Home · About · Solutions · How it works · Learning Resources · Contact Us · Get Started**, with **Log In** as a secondary action. Solutions contains Girls, Parents and Guardians, and Schools.
+
+## Joining and onboarding
+
+Personal accounts are invitation-based during the first school pilot. Girls and parents receive invitations through an approved school. Schools first register interest and complete readiness discussions; submitting interest does not automatically approve participation.
+
+Brief role-based onboarding asks about learning preferences and access, rather than personal medical history. Required permissions are separate from optional preferences, diary use and feedback. Account connection does not give parents access to the girl’s private diary.
+
+## AI’s role
+
+Ask GroomingHer explains approved lessons in simpler language and points to the relevant resource. It can clarify a term or help a girl understand a topic.
+
+It does not read the diary, detect irregularities, diagnose conditions, prescribe medicines, request intimate images or automatically alert parents. Unsupported or personal medical questions are directed to appropriate human support. AI access begins only after content and safety review.
+
+## Optional diary and chosen sharing
+
+Girls may record period dates, flow, pain, impact on activities and optional symptoms or notes. They can edit or delete entries. Daily logging is not compulsory and diary use is not a school assessment.
+
+A girl can use **Help Me Tell Someone** to choose a verified recipient, draft a message, review its exact wording and confirm sending. Nothing is sent automatically. The first version supports selected concern messages, rather than a full chat service.
+
+## Privacy and support
+
+Parents and schools cannot browse diaries, unshared symptoms or private AI questions. School staff see only the information needed to run the programme. Reports use combined results with protections against identifying girls.
+
+Each pilot school needs a trained female support contact, a backup and a route to qualified healthcare. Support must also be available offline. Shared devices and paper diaries have privacy limitations that must be explained honestly. Urgent guidance must not depend on waiting for an app response.
+
+Health, child-protection, consent and privacy arrangements require appropriate professional review before children participate or personal health information is collected.
+
+## First pilot
+
+The agreed pilot lasts **six weeks** at one Christian school, with guided sessions and optional home learning. Families participate free; sponsorship or founder funding still needs to be secured. Approximately 15–20 girls is a proposed manageable starting group, not a confirmed commitment.
+
+| Week | Focus |
+| --- | --- |
+| 1 | My changing body, dignity and how GroomingHer works. |
+| 2 | Periods, menstrual products and the optional diary. |
+| 3 | Hygiene, discharge and questions about changes. |
+| 4 | Pain, daily activities and asking for help. |
+| 5 | Personal boundaries, consent and trusted adults. |
+| 6 | Review, anonymous questions and feedback. |
+
+The initial preparation deliverable is a sample lesson pack: **Understanding my period and asking for help**, containing a girl lesson, facilitator notes and a parent guide.
+
+## What success means
+
+The pilot measures understanding and confidence: whether girls can answer reviewed fictional scenarios, identify a safe support contact and feel more comfortable asking for help. Attendance, parent feedback, access barriers and safety concerns also inform improvements.
+
+The pilot does not establish diagnostic accuracy or long-term clinical benefit. Proposed targets and readiness requirements are detailed in the PRD.
+
+## Later phases
+
+Potential later work includes a mobile app, adapted content for ages 16–19, local-language editions, regular reviewed updates and wider school partnerships. Automated pattern alerts would require separate clinical evaluation, permissions and regulatory review. Peer community features are excluded from the first version.
+
+## Project documents
+
+- [GroomingHer PRD](GroomingHer_PRD.md): approved scope, feature breakdowns, user stories, acceptance criteria and pilot planning.
+- [GroomingHer Implementation Plan](GroomingHer_Implementation_Plan.md): staged delivery, selected providers, privacy boundaries and readiness requirements.
+- [GroomingHer Design Plan](GroomingHer_Design_Plan.md): proposed visual direction, page layouts, navigation, flows and design validation.
+
+The PRD governs product scope. The design plan translates it into a proposed experience; it does not add approved medical functions. Visual choices remain recommendations until reviewed with the founder and users.
+
+## Immediate next steps
+
+1. Prepare the sample lesson and low-detail screen layouts.
+2. Find a suitable school and healthcare reviewer.
+3. Gather voluntary feedback from girls, parents and school staff.
+4. Confirm protection, privacy, support and permission procedures.
+5. Obtain realistic cost estimates and delivery support.
+6. Design and build the essential web-app experience, alongside printable learning materials.
+
+GroomingHer aims to align with relevant WHO adolescent-care and health-AI guidance. This is not WHO approval or certification. Primary references and remaining approvals are recorded in the PRD.
+
+## Demonstration build — October 2026
+
+This repository is being rebuilt against the attached PRD 3.1. The source documents above describe the intended service; the current software is a fictional demonstration, not an approved pilot.
 
 ```bash
-git clone https://github.com/IretiAkin5/GroomingHer-Qubators.git
-cd GroomingHer-Qubators
+cd app
+npm ci
+npm run dev -- --hostname 0.0.0.0
 ```
 
-## Run the app (needs Node 20 + Docker)
+No database, Docker, account credentials, Groq or Resend key is needed for this demonstration. See [build stages](docs/BUILD_STAGES.md) for preview routes and validation. Node 24 is validated in the cloud; Next.js supports Node 20 or newer.
 
-```bash
-cp app/.env.example app/.env.local
-docker compose up --build
-# open http://localhost:3000, health at /api/health
-```
+All health samples await professional review. Personal health inputs and the legacy collection APIs are disabled. Forms use fixed fictional details; no enquiry, account, diary or message is sent to a server. Demo state is temporary. Real invitation-based accounts, permissions, approved content, vendor integrations and management belong to later stages.
 
-## Roadmap
-
-| When | What | Status |
-|---|---|---|
-| Done | Phases 0–3: research, stories, design, scaffold, DB running | ✅ |
-| Done | Slices 1–3: onboarding, calendar, symptoms | ✅ |
-| **Now** | Slice 4: Is This Normal? (rules + static answers) | ▶️ |
-| Next | Slices 5–6: Ask Her, Tell Parents/Guardian | Planned |
-| After | Slices 7–8: Learn hub, Parent interface | Planned |
-| Then | Content review → testing → school launch | Planned |
-
-Details: `PRD.md` Appendix D. Old v0.1 checklist retired — scope is now in `PRD.md` §2 (MoSCoW).
-
-## License
-
-TBD
+Canonical founder documents are preserved in `GroomingHer_PRD.md`, `GroomingHer_Implementation_Plan.md` and `GroomingHer_Design_Plan.md`; `PRD.md` and `IMPLEMENTATION_PLAN.md` mirror their respective sources. Superseded Word files are kept in `docs/archive` for history.

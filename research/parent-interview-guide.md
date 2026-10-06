@@ -1,15 +1,7 @@
-# Phase 0 — Parent Interview Guide (GroomingHer)
+# Parent/guardian feedback guide
 
-Goal: learn how parents want to help and what stops them. 3–5 interviews. 20 min. Notes anonymized (P01…).
+The current [README](../README.md) and [PRD](../GroomingHer_PRD.md) define the Christian education-first purpose. Use fictional examples and voluntary participation.
 
-## Questions
-1. What period/body questions has your daughter asked, or do you wish she would ask?
-2. What signs would worry you enough to visit a clinic? (listen first, then compare with red-flag list)
-3. What stops the conversation — embarrassment, words, myths, time, cost?
-4. If she shared a short note from an app (symptoms + suggestion to talk), would that help? What should it include/not include?
-5. Privacy: what should a parent NEVER see in such an app?
-6. Phone/data: shared devices? Who pays for data? Preferred language (English/Pidgin/Hausa/Yoruba/Igbo)?
+Tasks: locate a guide; try a gentle conversation starter; explain what linking accounts does and does not reveal; read a girl-confirmed sample message; find programme topics and support. Ask about print access, wording, privacy concerns and practical delivery barriers. Never request a daughter’s health history or private diary.
 
-## Red lines
-- No access to any child's private data during research. Show only sample/mock cards.
-- Educational info only, no medical advice.
+Explain that required participation permission, optional diary use and feedback are separate. A claimed relationship alone is not verified authority. Record combined feedback without identifying children; establish privacy and child-protection arrangements before research.
