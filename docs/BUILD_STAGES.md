@@ -37,7 +37,7 @@ npm ci
 npm run dev -- --hostname 0.0.0.0
 ```
 
-For production validation, stop development before `npm run build`, then run `npm run start -- --hostname 0.0.0.0`. Node 24.19.0 is validated; no database or service credentials are needed. Optional Docker Compose now runs only the demo web app; the Docker image build and Netlify deployment have not been verified.
+For production validation, stop development before `npm run build`, then run `npm run start -- --hostname 0.0.0.0`. Node 24.19.0 is validated; no database or service credentials are needed. Optional Docker Compose now runs only the demo web app; the Docker image build remains unverified. Netlify publication and live route checks were verified on 7 October 2026, as recorded in `VALIDATION.md`.
 
 Browser checks use `npm run test:e2e` with the app running. They choose `/usr/bin/chromium` when available or Playwright's installed browser. On a fresh machine use `npx playwright install --with-deps chromium`. `CHROMIUM_PATH` and `TEST_BASE_URL` can override those defaults; `GROOMINGHER_ARTIFACTS` sets the screenshot/PDF directory. GitHub Actions runs the same production checks, but its remote execution is not yet verified.
 
