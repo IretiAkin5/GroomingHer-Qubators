@@ -10,7 +10,9 @@
 
 The combined production `npm run test:e2e` suite passed **16 tests, 0 failed, 0 skipped**. PNG icons are generated reproducibly by the build script with pinned Sharp; the PWA checks passed again after that change.
 
-PWA publication remains blocked. GitHub repository reads succeeded, but repeated authorized pushes returned remote `Internal Server Error` (including after HTTP/1.1/full-pack transport checks, omitting workflow edits and generating icons rather than pushing binary assets). Local repository integrity checks passed. One recorded GitHub request ID is `809F:246D9C:25B1EB1:2457200:6AC66193`, 7 October 2026 15:13:24 UTC. The remote `main` still points to `bd9c63d`; the existing production site does not yet serve the new worker. No injected `NETLIFY_AUTH_TOKEN` is present for direct deployment. Do not interpret local PWA test success as live PWA publication.
+The first PWA publication attempt was blocked by GitHub remote `Internal Server Error`; local repository integrity checks passed. Retrying on 7 October succeeded: commit `ca67644` reached `main`, and Netlify deployment `6ac668ae1d17ce00084f9a19` published at 15:44:31 UTC. Live HTTPS checks returned 200 for the home page, manifest, versioned worker, offline screen, all four PNG icons and health endpoint. The health endpoint still reports fictional-demo mode with collection disabled.
+
+The live PWA suite initially passed offline privacy and confirmed update activation but found that Netlify served the static worker with its default cache header instead of Next.js's configured `no-store` header. Explicit Netlify static-file headers were added for the worker and manifest; the full live PWA suite must pass after that deployment. Live tests use a local same-origin relay with upstream HTTPS verification and the cloud proxy/system CA settings; no TLS checks or test assertions are disabled.
 
 ## Netlify routing correction — 7 October 2026
 

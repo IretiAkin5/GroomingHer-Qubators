@@ -16,7 +16,7 @@ The first audience is girls aged **13–15**, including girls who have not start
 
 ## Installable app (PWA)
 
-After the PWA stage is published, open **https://groomingher.netlify.app/** in a regular browser. On Android or desktop Chrome/Edge, use **Install GroomingHer** at the bottom of the page or the browser's **Install app** menu. On iPhone/iPad, open the site in Safari and use **Share → Add to Home Screen**. Browser support and menu wording vary; installation is unavailable in private browsing. Check `docs/VALIDATION.md` for publication status.
+Open **https://groomingher.netlify.app/** in a regular browser. On Android or desktop Chrome/Edge, use **Install GroomingHer** at the bottom of the page or the browser's **Install app** menu. On iPhone/iPad, open the site in Safari and use **Share → Add to Home Screen**. Browser support and menu wording vary; installation is unavailable in private browsing. Check `docs/VALIDATION.md` for publication status.
 
 The installed app uses the same deployment as the website. No app-store release or reinstall is needed for updates. Each `npm run build` generates a new versioned service worker via `postbuild`; the app checks for updates on opening, returning to it, reconnecting and hourly while open. When a new worker is ready, **Update and reload** activates it after the user's confirmation. Reloading resets memory-only demonstration work; the update prompt explains this before activation.
 

@@ -2,7 +2,7 @@
 
 ## PWA stage — 7 October 2026
 
-After publication, install from https://groomingher.netlify.app/ in Chrome/Edge or Safari's Add to Home Screen. The manifest includes standard and maskable icons, a standalone display and a stable root scope. A production-build-versioned worker provides a reconnect screen offline; it stores only that screen and icons. App updates wait for explicit **Update and reload** confirmation. Lessons and demonstration data remain online-only and memory-only as before. See the README for installation/update instructions and `npm run test:pwa` for installability, offline privacy and update lifecycle checks. Publication status is recorded in `VALIDATION.md`.
+Install from https://groomingher.netlify.app/ in Chrome/Edge or Safari's Add to Home Screen. The manifest includes standard and maskable icons, a standalone display and a stable root scope. A production-build-versioned worker provides a reconnect screen offline; it stores only that screen and icons. App updates wait for explicit **Update and reload** confirmation. Lessons and demonstration data remain online-only and memory-only as before. See the README for installation/update instructions and `npm run test:pwa` for installability, offline privacy and update lifecycle checks. Publication status is recorded in `VALIDATION.md`.
 
 6 October 2026. This implementation follows the four founder-supplied documents. Those are product/design requirements, not a declaration that their live services or approvals exist. The user's initial-build instruction governs this delivery: fictional demonstration only, no real children’s health collection.
 
