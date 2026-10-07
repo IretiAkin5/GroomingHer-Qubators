@@ -54,7 +54,7 @@ The suite checks public and legacy routes, blocked collection APIs, desktop/phon
 
 ## Later live stages — not implemented or approved
 
-Real Better Auth accounts, child-account recovery, verified invitations/authority/pairing, server authorisation, PostgreSQL data modelling, permissions/retention/deletion procedures, approved content publishing, Resend delivery, Groq evaluation and access, management tools and actual pilot operation remain later work. Netlify configuration is proposed only; no host account or deployment was accessed. Privacy, health, Christian-reflection and child-protection professional reviews remain prerequisites before children participate or personal health information is collected.
+Real Better Auth accounts, child-account recovery, verified invitations/authority/pairing, server authorisation, PostgreSQL data modelling, permissions/retention/deletion procedures, approved content publishing, Resend delivery, Groq evaluation and access, management tools and actual pilot operation remain later work. Netlify uses the explicitly configured Next.js adapter; see README deployment instructions and the dated validation record. Privacy, health, Christian-reflection and child-protection professional reviews remain prerequisites before children participate or personal health information is collected.
 
 ## Validation outcome
 

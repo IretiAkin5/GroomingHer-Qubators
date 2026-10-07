@@ -35,3 +35,6 @@ app/out/
 app/test-results/
 app/playwright-report/
 app/tsconfig.tsbuildinfo
+
+# Local Netlify build output and account state
+.netlify/

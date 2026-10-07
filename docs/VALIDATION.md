@@ -1,5 +1,11 @@
 # Build validation — 6 October 2026
 
+## Netlify routing correction — 7 October 2026
+
+The published deployment `6ac524a1a341550008c30eed` used commit `2fb95e3` but returned Netlify 404 for both `/` and `/api/health`. Its public deployment summary reported raw paths such as `server/app/index.html`, no redirect rules and no deployed functions. This establishes that the raw Next.js build was published without the required adapter output.
+
+Pinned `@netlify/plugin-nextjs` 5.16.2 and configured it explicitly in `netlify.toml`, with Node 24. `netlify build --offline` completed successfully: all 41 pages compiled and Netlify packaged `___netlify-server-handler`. This verifies adapter build output locally; it does not by itself verify publication. Live deployment will be checked after the corrective commit reaches GitHub.
+
 ## Checks completed during staged development
 
 Public-stage desktop/mobile navigation, resource filtering/detail and enquiry preview/failure passed. TypeScript passed after source changes. The 13-journey suite's first development run passed 10 and identified three checks needing attention: onboarding progress needed a semantic progressbar role; the resource check needed to wait for Next.js streamed document metadata; and the schedule test needed client navigation because a full reload deliberately resets memory-only demo drafts. All three corrected checks passed a targeted rerun.

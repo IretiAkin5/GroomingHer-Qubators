@@ -1,5 +1,11 @@
-# Proposed build configuration only; no deployment/account access has been verified.
+# Build Next.js with Netlify's adapter, including server functions and route handling.
 [build]
   base = "app"
   command = "npm run build"
   publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

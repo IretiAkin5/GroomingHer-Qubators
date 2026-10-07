@@ -2,6 +2,12 @@
 
 > **Current build:** public website and fictional Girl, Parent and School demonstrations. No live enrolment or real children’s health collection. [Run, preview and check the stages](docs/BUILD_STAGES.md). The founder product brief below describes the intended service.
 
+## Netlify deployment
+
+The repository's `netlify.toml` sets base directory `app`, build command `npm run build`, publish directory `.next`, Node 24 and the explicit `@netlify/plugin-nextjs` adapter. The adapter is pinned in the app lockfile and generates Netlify routing and server functions. Uploading the raw `.next` folder without the adapter produces a Netlify 404.
+
+Deploy the linked GitHub `main` branch. Successful deployment should serve `/`, `/about`, `/onboarding/girl` and `/api/health`; the health endpoint must report fictional-demo mode and `healthCollection: false`. No database or child-health credentials are needed for this demonstration. If an older configuration remains cached, use Netlify **Deploys → Trigger deploy → Clear cache and deploy site**. Local adapter validation: run `netlify build --offline` from the repository root using Netlify CLI.
+
 **Christian teenage health education for Nigerian girls and the adults who support them.**
 
 GroomingHer is a planned web app that helps girls understand their changing bodies, ask questions with confidence and know when to seek support. Health education leads the experience, with Bible verses and reflections reinforcing dignity, compassion, healthy boundaries and care for the body.
