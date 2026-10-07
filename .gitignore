@@ -38,3 +38,7 @@ app/tsconfig.tsbuildinfo
 
 # Local Netlify build output and account state
 .netlify/
+
+# Generated for each production build from app/pwa/sw.js
+app/public/sw.js
+app/public/icons/

@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/build-pwa.cjs",
     "start": "next start",
     "typecheck": "tsc --noEmit --incremental false",
-    "test:e2e": "node --test tests/journeys.test.cjs"
+    "test:e2e": "node --test tests/journeys.test.cjs tests/pwa.test.cjs",
+    "test:pwa": "node --test tests/pwa.test.cjs"
   },
   "dependencies": {
     "better-auth": "^1.2.0",
@@ -27,6 +29,7 @@
     "@types/react": "^19.0.0",
     "drizzle-kit": "^0.31.0",
     "playwright": "^1.63.0",
+    "sharp": "0.35.4",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.6.0"
   }

@@ -1,5 +1,17 @@
 # Build validation — 6 October 2026
 
+## PWA validation — 7 October 2026
+
+- Production build and TypeScript checks passed with the install controls, manifest and offline worker.
+- Existing production journey suite: **13 passed, 0 failed, 0 skipped**, including checked accessibility and phone layouts.
+- New PWA suite against the final production build: **3 passed, 0 failed, 0 skipped**. Chromium's installability audit reported no errors using a disposable regular profile. PNG dimensions, maskable icon, Apple touch icon and noncached worker headers passed. Offline role navigation showed the reconnect screen, with only offline HTML/icons in Cache Storage. A simulated second deployment waited for explicit activation, preserved the current page until confirmation, then reloaded and removed the old cache.
+- The initial installability test used an incognito context, which Chromium correctly rejected for installation; the test was corrected to a normal disposable profile. No installability assertions were disabled.
+- Each production build stamps the worker with the Next.js build ID. Installation does not change the fictional-data or no-health-collection boundaries.
+
+The combined production `npm run test:e2e` suite passed **16 tests, 0 failed, 0 skipped**. PNG icons are generated reproducibly by the build script with pinned Sharp; the PWA checks passed again after that change.
+
+PWA publication remains blocked. GitHub repository reads succeeded, but repeated authorized pushes returned remote `Internal Server Error` (including after HTTP/1.1/full-pack transport checks, omitting workflow edits and generating icons rather than pushing binary assets). Local repository integrity checks passed. One recorded GitHub request ID is `809F:246D9C:25B1EB1:2457200:6AC66193`, 7 October 2026 15:13:24 UTC. The remote `main` still points to `bd9c63d`; the existing production site does not yet serve the new worker. No injected `NETLIFY_AUTH_TOKEN` is present for direct deployment. Do not interpret local PWA test success as live PWA publication.
+
 ## Netlify routing correction — 7 October 2026
 
 The published deployment `6ac524a1a341550008c30eed` used commit `2fb95e3` but returned Netlify 404 for both `/` and `/api/health`. Its public deployment summary reported raw paths such as `server/app/index.html`, no redirect rules and no deployed functions. This establishes that the raw Next.js build was published without the required adapter output.

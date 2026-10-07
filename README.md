@@ -14,6 +14,14 @@ GroomingHer is a planned web app that helps girls understand their changing bodi
 
 The first audience is girls aged **13–15**, including girls who have not started menstruating. Parents and guardians have a separate, connected learning space. Authorised school staff have tools for delivering guided sessions. A mobile app and learning paths for older teenagers are longer-term plans.
 
+## Installable app (PWA)
+
+After the PWA stage is published, open **https://groomingher.netlify.app/** in a regular browser. On Android or desktop Chrome/Edge, use **Install GroomingHer** at the bottom of the page or the browser's **Install app** menu. On iPhone/iPad, open the site in Safari and use **Share → Add to Home Screen**. Browser support and menu wording vary; installation is unavailable in private browsing. Check `docs/VALIDATION.md` for publication status.
+
+The installed app uses the same deployment as the website. No app-store release or reinstall is needed for updates. Each `npm run build` generates a new versioned service worker via `postbuild`; the app checks for updates on opening, returning to it, reconnecting and hourly while open. When a new worker is ready, **Update and reload** activates it after the user's confirmation. Reloading resets memory-only demonstration work; the update prompt explains this before activation.
+
+Internet access is required for lessons and demonstration spaces. Offline launch shows a branded reconnect screen. Only that screen and app icons are cached, never lessons, role pages, diaries, messages or API responses. PWA installation does not add authentication or persistent diary storage. Worker source: `app/pwa/sw.js`; generated `app/public/sw.js` and PNG icons are ignored by Git and generated in `postbuild` from the existing SVG brand icon. `npm run test:e2e` includes the journey and PWA suites; `npm run test:pwa` runs just the PWA checks.
+
 ## Product status
 
 GroomingHer is in planning and discovery. The first-version features have been approved by the founder; the school, healthcare reviewer, delivery partners and funding have not yet been secured. This README describes the intended product, not a live or clinically approved service.
