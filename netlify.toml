@@ -20,3 +20,10 @@
   for = "/manifest.webmanifest"
   [headers.values]
     Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/downloads/GroomingHer.apk"
+  [headers.values]
+    Content-Type = "application/vnd.android.package-archive"
+    Content-Disposition = 'attachment; filename="GroomingHer.apk"'
+    Cache-Control = "no-cache"

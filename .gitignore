@@ -42,3 +42,9 @@ app/tsconfig.tsbuildinfo
 # Generated for each production build from app/pwa/sw.js
 app/public/sw.js
 app/public/icons/
+
+# Android local SDK, build output and signing material
+android/.gradle/
+android/local.properties
+*.jks
+*.keystore

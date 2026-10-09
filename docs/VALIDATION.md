@@ -1,5 +1,9 @@
 # Build validation — 6 October 2026
 
+## Android APK — 9 October 2026
+
+A signed demonstration APK was built with Android SDK 35, JDK 21 and Gradle 8.11.1. Assembly and lint passed after correcting an Android 8.0 navigation-bar attribute and adding explicit Android 12+ backup exclusions. Signature, alignment and manifest checks passed. Website build, three PWA tests and the Android-user-agent Girl entry check passed. Native device/emulator testing remains unperformed; see `android/README.md` for the build and artifact checksum. The verified artifact is staged at `app/public/downloads/GroomingHer.apk` for Netlify publication.
+
 ## PWA validation — 7 October 2026
 
 - Production build and TypeScript checks passed with the install controls, manifest and offline worker.

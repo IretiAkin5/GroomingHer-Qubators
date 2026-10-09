@@ -17,7 +17,7 @@ export function PwaControls() {
 
   useEffect(() => {
     const standalone = window.matchMedia("(display-mode: standalone)");
-    const syncInstalled = () => setInstalled(standalone.matches || !!(navigator as Navigator & { standalone?: boolean }).standalone);
+    const syncInstalled = () => setInstalled(standalone.matches || !!(navigator as Navigator & { standalone?: boolean }).standalone || navigator.userAgent.includes("GroomingHerAndroid/"));
     const offerInstall = (event: Event) => {
       event.preventDefault();
       setInstallEvent(event as InstallEvent);
