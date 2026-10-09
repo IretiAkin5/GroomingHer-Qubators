@@ -25,3 +25,5 @@ This build uses the standard development signing certificate and is debuggable. 
 - APK SHA-256: `cb953b22d662a1d59b37f2c31d0a4e892fd83394635350d17106460f82c65aff`.
 - Website production build and all three PWA tests passed after the Android user-agent handling change. A browser using the Android wrapper user-agent correctly hid the redundant PWA install prompt and entered the Girl demonstration.
 - No Android emulator or physical device was available, so native installation, back navigation, keyboard/system bars and offline handling still require device testing. Browser checks do not establish native-device behaviour.
+
+The download was published on 9 October 2026 at 17:45 WAT. Live HTTPS download returned 200, the correct APK content type/attachment filename and the same SHA-256 as the signed local artifact.
